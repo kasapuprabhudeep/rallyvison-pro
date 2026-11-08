@@ -45,17 +45,21 @@ jobs:
         working-directory: frontend/android
         run: chmod +x gradlew
 
+      - name: Configure Android SDK Location
+        working-directory: frontend/android
+        run: |
+          echo "sdk.dir=$ANDROID_HOME" > local.properties
+
       - name: Build Android Play Store Bundle (AAB) & Instant-Install APK
         working-directory: frontend/android
-        env:
-          ANDROID_HOME: /usr/local/lib/android/sdk
-        run: ./gradlew assembleDebug bundleRelease --no-daemon --stacktrace
+        run: ./gradlew :app:assembleDebug :app:bundleRelease --no-daemon --stacktrace
 
       - name: Upload Play Store AAB Bundle (For Google Play Console)
         uses: actions/upload-artifact@v4
         with:
           name: rallyvision-pro-playstore-aab
           path: frontend/android/app/build/outputs/bundle/release/*.aab
+          if-no-files-found: warn
           retention-days: 30
 
       - name: Upload Instant-Install Test APK (For Direct Phone Testing)
@@ -63,4 +67,6 @@ jobs:
         with:
           name: rallyvision-pro-phone-apk
           path: frontend/android/app/build/outputs/apk/debug/*.apk
+          if-no-files-found: warn
+          retention-days: 30
           retention-days: 30
