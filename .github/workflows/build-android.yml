@@ -57,11 +57,23 @@ jobs:
 
       - name: Build Instant-Install Test APK
         working-directory: frontend/android
-        run: ./gradlew :app:assembleDebug --no-daemon --stacktrace
+        run: |
+          set -o pipefail
+          ./gradlew :app:assembleDebug --no-daemon --stacktrace 2>&1 | tee /tmp/gradle_apk.log || {
+            ERR=$(tail -n 30 /tmp/gradle_apk.log | tr '\r\n' ' ')
+            echo "::error title=Gradle APK Failure::$ERR"
+            exit 1
+          }
 
       - name: Build Play Store App Bundle (AAB)
         working-directory: frontend/android
-        run: ./gradlew :app:bundleRelease --no-daemon --stacktrace
+        run: |
+          set -o pipefail
+          ./gradlew :app:bundleRelease --no-daemon --stacktrace 2>&1 | tee /tmp/gradle_aab.log || {
+            ERR=$(tail -n 30 /tmp/gradle_aab.log | tr '\r\n' ' ')
+            echo "::error title=Gradle AAB Failure::$ERR"
+            exit 1
+          }
 
       - name: Upload Play Store AAB Bundle (For Google Play Console)
         uses: actions/upload-artifact@v4
@@ -78,3 +90,11 @@ jobs:
           path: frontend/android/app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
           retention-days: 30
+
+      - name: Upload Debug Logs on Failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gradle-debug-logs
+          path: /tmp/gradle_*.log
+          if-no-files-found: ignore
