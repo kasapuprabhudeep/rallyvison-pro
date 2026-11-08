@@ -45,31 +45,30 @@ jobs:
         working-directory: frontend/android
         run: chmod +x gradlew
 
-      - name: Configure Android SDK Location and Ensure Platform 35
+      - name: Configure Android SDK Location and Install Platform 35
         working-directory: frontend/android
         run: |
+          sudo chown -R $USER:$USER $ANDROID_HOME
           echo "sdk.dir=$ANDROID_HOME" > local.properties
-          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
-          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platforms;android-35" "build-tools;35.0.0" || true
+          SDKMANAGER=$(which sdkmanager || echo "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager")
+          echo "Using sdkmanager at: $SDKMANAGER"
+          yes | $SDKMANAGER --licenses || true
+          $SDKMANAGER --install "platforms;android-35" "platforms;android-34" "build-tools;35.0.0"
 
-      - name: Build Android Play Store Bundle (AAB) & Instant-Install APK
+      - name: Build Instant-Install Test APK
         working-directory: frontend/android
-        run: |
-          set -o pipefail
-          ./gradlew :app:assembleDebug :app:bundleRelease --no-daemon --stacktrace 2>&1 | tee /tmp/gradle.log || {
-            echo "## ❌ Gradle Build Error Details" >> $GITHUB_STEP_SUMMARY
-            echo '```text' >> $GITHUB_STEP_SUMMARY
-            tail -n 120 /tmp/gradle.log >> $GITHUB_STEP_SUMMARY
-            echo '```' >> $GITHUB_STEP_SUMMARY
-            exit 1
-          }
+        run: ./gradlew :app:assembleDebug --no-daemon --stacktrace
+
+      - name: Build Play Store App Bundle (AAB)
+        working-directory: frontend/android
+        run: ./gradlew :app:bundleRelease --no-daemon --stacktrace
 
       - name: Upload Play Store AAB Bundle (For Google Play Console)
         uses: actions/upload-artifact@v4
         with:
           name: rallyvision-pro-playstore-aab
           path: frontend/android/app/build/outputs/bundle/release/*.aab
-          if-no-files-found: warn
+          if-no-files-found: error
           retention-days: 30
 
       - name: Upload Instant-Install Test APK (For Direct Phone Testing)
@@ -77,21 +76,5 @@ jobs:
         with:
           name: rallyvision-pro-phone-apk
           path: frontend/android/app/build/outputs/apk/debug/*.apk
-          if-no-files-found: warn
-          retention-days: 30
-
-      - name: Upload Play Store AAB Bundle (For Google Play Console)
-        uses: actions/upload-artifact@v4
-        with:
-          name: rallyvision-pro-playstore-aab
-          path: frontend/android/app/build/outputs/bundle/release/*.aab
-          if-no-files-found: warn
-          retention-days: 30
-
-      - name: Upload Instant-Install Test APK (For Direct Phone Testing)
-        uses: actions/upload-artifact@v4
-        with:
-          name: rallyvision-pro-phone-apk
-          path: frontend/android/app/build/outputs/apk/debug/*.apk
-          if-no-files-found: warn
+          if-no-files-found: error
           retention-days: 30
