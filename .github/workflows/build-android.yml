@@ -60,7 +60,7 @@ jobs:
         run: |
           set -o pipefail
           ./gradlew :app:assembleDebug --no-daemon --stacktrace 2>&1 | tee /tmp/gradle_apk.log || {
-            ERR=$(tail -n 30 /tmp/gradle_apk.log | tr '\r\n' ' ')
+            ERR=$(grep -A 10 "What went wrong:" /tmp/gradle_apk.log | tr '\r\n' ' ' || tail -n 25 /tmp/gradle_apk.log | tr '\r\n' ' ')
             echo "::error title=Gradle APK Failure::$ERR"
             exit 1
           }
@@ -70,7 +70,7 @@ jobs:
         run: |
           set -o pipefail
           ./gradlew :app:bundleRelease --no-daemon --stacktrace 2>&1 | tee /tmp/gradle_aab.log || {
-            ERR=$(tail -n 30 /tmp/gradle_aab.log | tr '\r\n' ' ')
+            ERR=$(grep -A 10 "What went wrong:" /tmp/gradle_aab.log | tr '\r\n' ' ' || tail -n 25 /tmp/gradle_aab.log | tr '\r\n' ' ')
             echo "::error title=Gradle AAB Failure::$ERR"
             exit 1
           }
