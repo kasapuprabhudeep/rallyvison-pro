@@ -69,4 +69,3 @@ jobs:
           path: frontend/android/app/build/outputs/apk/debug/*.apk
           if-no-files-found: warn
           retention-days: 30
-          retention-days: 30
