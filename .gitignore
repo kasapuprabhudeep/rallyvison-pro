@@ -1,0 +1,38 @@
+# Environment & Secrets
+.env
+*.env
+__pycache__/
+*.py[cod]
+*$py.class
+*.db
+*.sqlite3
+
+# Python Virtual Environments
+venv/
+.venv/
+env/
+
+# Node & Frontend
+node_modules/
+frontend/node_modules/
+dist/
+frontend/dist/
+*.tsbuildinfo
+.npm/
+
+# Storage & Temporary Files (Keep directories, ignore user media)
+storage/videos/*
+!storage/videos/.gitkeep
+storage/frames/*
+!storage/frames/.gitkeep
+storage/thumbnails/*
+!storage/thumbnails/.gitkeep
+storage/reports/*
+!storage/reports/.gitkeep
+
+# IDEs & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+

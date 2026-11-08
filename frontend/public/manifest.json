@@ -1,0 +1,20 @@
+{
+  "short_name": "RallyVision Pro",
+  "name": "RallyVision Pro — Badminton Video Telemetry",
+  "description": "Professional tournament badminton video telemetry and optical court analytics platform",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/dashboard",
+  "background_color": "#060913",
+  "theme_color": "#060913",
+  "display": "standalone",
+  "orientation": "portrait",
+  "categories": ["sports", "fitness", "productivity"]
+}
+

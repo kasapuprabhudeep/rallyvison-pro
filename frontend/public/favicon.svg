@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <linearGradient id="favBg" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stopColor="#0a1638" />
+      <stop offset="100%" stopColor="#060913" />
+    </linearGradient>
+    <linearGradient id="favCyan" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stopColor="#00f0ff" />
+      <stop offset="100%" stopColor="#3b82f6" />
+    </linearGradient>
+    <linearGradient id="favIndigo" x1="100" y1="0" x2="0" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stopColor="#a855f7" />
+      <stop offset="100%" stopColor="#6366f1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Rounded App Icon Background -->
+  <rect width="100" height="100" rx="24" fill="url(#favBg)" stroke="#00f0ff" stroke-width="2" stroke-opacity="0.3" />
+
+  <!-- Racket 1: Slanted Right-Down -->
+  <g transform="rotate(38 50 50)">
+    <ellipse cx="50" cy="22" rx="14" ry="18" stroke="url(#favCyan)" stroke-width="3" fill="#00f0ff" fill-opacity="0.1" />
+    <line x1="45" y1="6" x2="45" y2="38" stroke="#00f0ff" stroke-width="1" stroke-opacity="0.5" />
+    <line x1="50" y1="4" x2="50" y2="40" stroke="#00f0ff" stroke-width="1.2" stroke-opacity="0.6" />
+    <line x1="55" y1="6" x2="55" y2="38" stroke="#00f0ff" stroke-width="1" stroke-opacity="0.5" />
+    <line x1="38" y1="22" x2="62" y2="22" stroke="#00f0ff" stroke-width="1.2" stroke-opacity="0.6" />
+    <line x1="50" y1="40" x2="50" y2="70" stroke="url(#favCyan)" stroke-width="3" stroke-linecap="round" />
+    <rect x="47" y="70" width="6" height="24" rx="2" fill="#00f0ff" />
+  </g>
+
+  <!-- Racket 2: Slanted Left-Down -->
+  <g transform="rotate(-38 50 50)">
+    <ellipse cx="50" cy="22" rx="14" ry="18" stroke="url(#favIndigo)" stroke-width="3" fill="#6366f1" fill-opacity="0.1" />
+    <line x1="45" y1="6" x2="45" y2="38" stroke="#a855f7" stroke-width="1" stroke-opacity="0.5" />
+    <line x1="50" y1="4" x2="50" y2="40" stroke="#a855f7" stroke-width="1.2" stroke-opacity="0.6" />
+    <line x1="55" y1="6" x2="55" y2="38" stroke="#a855f7" stroke-width="1" stroke-opacity="0.5" />
+    <line x1="38" y1="22" x2="62" y2="22" stroke="#a855f7" stroke-width="1.2" stroke-opacity="0.6" />
+    <line x1="50" y1="40" x2="50" y2="70" stroke="url(#favIndigo)" stroke-width="3" stroke-linecap="round" />
+    <rect x="47" y="70" width="6" height="24" rx="2" fill="#6366f1" />
+  </g>
+
+  <!-- Center Luminous Feather Shuttlecock Crest -->
+  <circle cx="50" cy="50" r="14" fill="#070c1e" stroke="#00f0ff" stroke-width="2" />
+  <ellipse cx="50" cy="56" rx="3.5" ry="2.2" fill="#facc15" />
+  <path d="M46.5 54.5 L42 43 C42 42 58 42 58 43 L53.5 54.5" stroke="#ffffff" stroke-width="1.4" fill="#ffffff" fill-opacity="0.3" />
+  <line x1="50" y1="54" x2="50" y2="42" stroke="#ffffff" stroke-width="1.2" />
+  <line x1="44" y1="48" x2="56" y2="48" stroke="#facc15" stroke-width="1" />
+</svg>
