@@ -47,20 +47,21 @@ jobs:
         working-directory: frontend/android
         run: chmod +x gradlew
 
-      - name: Build Android App Bundle (AAB for Google Play Store)
+      - name: Build Android Play Store Bundle (AAB) & Instant-Install APK
         working-directory: frontend/android
-        run: ./gradlew bundleRelease assembleRelease
+        run: ./gradlew bundleRelease assembleDebug
 
-      - name: Upload Play Store AAB Bundle
+      - name: Upload Play Store AAB Bundle (For Google Play Console)
         uses: actions/upload-artifact@v4
         with:
           name: rallyvision-pro-playstore-aab
           path: frontend/android/app/build/outputs/bundle/release/*.aab
           retention-days: 30
 
-      - name: Upload Installable APK
+      - name: Upload Instant-Install Test APK (For Direct Phone Testing)
         uses: actions/upload-artifact@v4
         with:
-          name: rallyvision-pro-apk
-          path: frontend/android/app/build/outputs/apk/release/*.apk
+          name: rallyvision-pro-phone-apk
+          path: frontend/android/app/build/outputs/apk/debug/*.apk
           retention-days: 30
+
