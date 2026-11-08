@@ -15,11 +15,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Set up Java 21
+      - name: Set up Java 17
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '21'
+          java-version: '17'
 
       - name: Set up Node.js 20
         uses: actions/setup-node@v4
@@ -49,7 +49,7 @@ jobs:
         working-directory: frontend/android
         env:
           ANDROID_HOME: /usr/local/lib/android/sdk
-        run: ./gradlew bundleRelease assembleDebug --no-daemon
+        run: ./gradlew assembleDebug bundleRelease --no-daemon --stacktrace
 
       - name: Upload Play Store AAB Bundle (For Google Play Console)
         uses: actions/upload-artifact@v4
