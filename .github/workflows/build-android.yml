@@ -25,12 +25,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
-          cache-dependency-path: frontend/package-lock.json
 
       - name: Install Frontend Dependencies
         working-directory: frontend
-        run: npm ci
+        run: npm install
 
       - name: Build Web Application
         working-directory: frontend
@@ -40,8 +38,8 @@ jobs:
         working-directory: frontend
         run: npx cap sync android
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
 
       - name: Grant Execute Permission for Gradlew
         working-directory: frontend/android
@@ -49,7 +47,9 @@ jobs:
 
       - name: Build Android Play Store Bundle (AAB) & Instant-Install APK
         working-directory: frontend/android
-        run: ./gradlew bundleRelease assembleDebug
+        env:
+          ANDROID_HOME: /usr/local/lib/android/sdk
+        run: ./gradlew bundleRelease assembleDebug --no-daemon
 
       - name: Upload Play Store AAB Bundle (For Google Play Console)
         uses: actions/upload-artifact@v4
@@ -64,4 +64,3 @@ jobs:
           name: rallyvision-pro-phone-apk
           path: frontend/android/app/build/outputs/apk/debug/*.apk
           retention-days: 30
-
