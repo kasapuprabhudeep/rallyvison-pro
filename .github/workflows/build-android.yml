@@ -55,14 +55,30 @@ jobs:
       - name: Build Android Play Store Bundle (AAB) & Instant-Install APK
         working-directory: frontend/android
         run: |
-          ./gradlew :app:assembleDebug :app:bundleRelease --no-daemon --stacktrace 2>&1 | tee gradle-build.log
+          set -o pipefail
+          ./gradlew :app:assembleDebug :app:bundleRelease --no-daemon --stacktrace 2>&1 | tee /tmp/gradle.log || {
+            echo "## ❌ Gradle Build Error Details" >> $GITHUB_STEP_SUMMARY
+            echo '```text' >> $GITHUB_STEP_SUMMARY
+            tail -n 120 /tmp/gradle.log >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            exit 1
+          }
 
-      - name: Upload Gradle Build Log on Failure
-        if: failure()
+      - name: Upload Play Store AAB Bundle (For Google Play Console)
         uses: actions/upload-artifact@v4
         with:
-          name: gradle-build-failure-log
-          path: frontend/android/gradle-build.log
+          name: rallyvision-pro-playstore-aab
+          path: frontend/android/app/build/outputs/bundle/release/*.aab
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Upload Instant-Install Test APK (For Direct Phone Testing)
+        uses: actions/upload-artifact@v4
+        with:
+          name: rallyvision-pro-phone-apk
+          path: frontend/android/app/build/outputs/apk/debug/*.apk
+          if-no-files-found: warn
+          retention-days: 30
 
       - name: Upload Play Store AAB Bundle (For Google Play Console)
         uses: actions/upload-artifact@v4
