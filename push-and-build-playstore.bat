@@ -25,7 +25,7 @@ if %ERRORLEVEL% EQU 0 (
     )
 ) else (
     echo Please enter your GitHub Repository URL.
-    echo (Example: https://github.com/YOUR_USERNAME/rallyvision-pro.git)
+    echo (Example: https://github.com/YOUR_USERNAME/rallyvison-pro.git)
     echo.
     set /p REPO_URL="Repository URL: "
     if "!REPO_URL!"=="" (
@@ -47,28 +47,34 @@ git commit -m "chore: automated trigger for Play Store AAB and APK build" >nul 2
 echo [3/3] Pushing to GitHub to trigger automated cloud compilation...
 echo.
 git push -u origin main
+if %ERRORLEVEL% NEQ 0 goto :failed
 
-if %ERRORLEVEL% EQU 0 (
-    echo.
-    echo ========================================================
-    echo   SUCCESS! Automated Play Store Cloud Build Triggered!
-    echo ========================================================
-    echo.
-    echo GitHub Actions is now compiling your Android package in the cloud.
-    echo.
-    echo Where to find your completed Play Store files:
-    echo 1. Open your GitHub repository in your browser.
-    echo 2. Click the 'Actions' tab at the top.
-    echo 3. Click the workflow: 'Build Android Play Store App Bundle & APK'
-    echo 4. Under 'Artifacts', download:
-    echo    - rallyvision-pro-playstore-aab (Upload this to Google Play Console)
-    echo    - rallyvision-pro-phone-apk     (Install directly on phone for testing)
-    echo.
-) else (
-    echo.
-    echo [ERROR] Git push failed. Please verify your GitHub URL and permissions.
-    echo.
-)
+:success
+echo.
+echo ========================================================
+echo   SUCCESS! Automated Play Store Cloud Build Triggered!
+echo ========================================================
+echo.
+echo GitHub Actions is now compiling your Android package in the cloud.
+echo.
+echo Where to find your completed Play Store files:
+echo 1. Open your GitHub repository in your browser:
+echo    https://github.com/kasapuprabhudeep/rallyvison-pro
+echo 2. Click the 'Actions' tab at the top.
+echo 3. Click the workflow: 'Build Android Play Store App Bundle and APK'
+echo 4. Under 'Artifacts', download:
+echo    - rallyvision-pro-playstore-aab [Upload to Google Play Console]
+echo    - rallyvision-pro-phone-apk     [Install directly on your phone]
+echo.
+goto :done
 
+:failed
+echo.
+echo ========================================================
+echo   [ERROR] Git push encountered an issue.
+echo ========================================================
+echo Please verify your GitHub URL and internet connection.
+echo.
+
+:done
 pause
-
