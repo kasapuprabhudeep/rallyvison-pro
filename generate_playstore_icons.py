@@ -109,3 +109,4 @@ os.makedirs("frontend/public", exist_ok=True)
 playstore_icon.save("frontend/public/playstore_icon_512.png", "PNG")
 playstore_icon.save("frontend/android/app/src/main/ic_launcher-playstore.png", "PNG")
 print("Generated 512x512 Google Play Store official icon")
+

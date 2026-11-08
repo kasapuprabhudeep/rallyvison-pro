@@ -6,6 +6,7 @@ __pycache__/
 *$py.class
 *.db
 *.sqlite3
+.gradle/
 
 # Python Virtual Environments
 venv/
