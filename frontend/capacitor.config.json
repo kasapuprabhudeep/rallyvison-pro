@@ -1,0 +1,12 @@
+{
+  "appId": "com.rallyvision.pro",
+  "appName": "RallyVision Pro",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https",
+    "cleartext": true
+  },
+  "android": {
+    "allowMixedContent": true
+  }
+}

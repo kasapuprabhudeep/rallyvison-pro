@@ -24,6 +24,8 @@ import { UserProfilePage } from './pages/UserProfilePage';
 import { SettingsPage } from './pages/SettingsPage';
 import { PrivacyPage } from './pages/PrivacyPage';
 import { SharedMatchPage } from './pages/SharedMatchPage';
+import { ErrorBoundary } from './components/ui/ErrorBoundary';
+import { OfflineBanner } from './components/ui/OfflineBanner';
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user, loading } = useAuth();
@@ -45,11 +47,13 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =
 
 export function App() {
   return (
-    <ThemeProvider>
-      <AuthProvider>
-        <BrowserRouter>
-          <Routes>
-          <Route element={<AppLayout />}>
+    <ErrorBoundary>
+      <ThemeProvider>
+        <AuthProvider>
+          <OfflineBanner />
+          <BrowserRouter>
+            <Routes>
+            <Route element={<AppLayout />}>
             {/* Public Routes */}
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<LoginPage />} />
@@ -193,6 +197,7 @@ export function App() {
       </BrowserRouter>
     </AuthProvider>
     </ThemeProvider>
+    </ErrorBoundary>
   );
 }
 
