@@ -46,6 +46,16 @@ def health_check():
         "database": "connected"
     }
 
+@app.get("/api/security/shield-status", tags=["Security & Antivirus"])
+def get_security_shield_status():
+    from app.services.security_scanner import SecurityScanner
+    return SecurityScanner.get_shield_status()
+
+@app.post("/api/security/sweep", tags=["Security & Antivirus"])
+def run_storage_security_sweep():
+    from app.services.security_scanner import SecurityScanner
+    return SecurityScanner.sweep_storage_for_malware()
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
