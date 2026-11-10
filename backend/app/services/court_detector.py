@@ -54,19 +54,49 @@ class CourtDetector:
         return corners
 
     @classmethod
-    def get_default_corners(cls, confidence: float = 0.5) -> Dict[str, Any]:
+    def get_default_corners(cls, confidence: float = 0.5, perspective: str = "BROADCAST") -> Dict[str, Any]:
         """
-        Default high-angle badminton camera perspective corners (normalized 0.0 to 1.0).
+        Calculates calibrated court corners for various tournament camera perspectives:
+        - BROADCAST: High rear broadcast angle (typical tournament feed)
+        - SIDE_VIEW: Bench / sideline view looking across the net line
+        - BASELINE_BEHIND: Low/mid tripod directly behind one player's baseline
+        - CORNER_DIAGONAL: 45-degree bleacher corner view
         Order: [Top-Left, Top-Right, Bottom-Right, Bottom-Left]
         """
-        return {
-            "corners": [
+        persp = (perspective or "BROADCAST").upper()
+        if persp == "SIDE_VIEW":
+            corners = [
+                {"x": 0.12, "y": 0.40}, # Far left baseline
+                {"x": 0.88, "y": 0.40}, # Far right baseline
+                {"x": 0.96, "y": 0.82}, # Near right baseline
+                {"x": 0.04, "y": 0.82}, # Near left baseline
+            ]
+        elif persp == "BASELINE_BEHIND":
+            corners = [
+                {"x": 0.34, "y": 0.26},
+                {"x": 0.66, "y": 0.26},
+                {"x": 0.95, "y": 0.90},
+                {"x": 0.05, "y": 0.90},
+            ]
+        elif persp == "CORNER_DIAGONAL":
+            corners = [
+                {"x": 0.30, "y": 0.28},
+                {"x": 0.82, "y": 0.22},
+                {"x": 0.90, "y": 0.74},
+                {"x": 0.12, "y": 0.82},
+            ]
+        else: # BROADCAST default
+            corners = [
                 {"x": 0.28, "y": 0.22}, # Top-Left (Far court left)
                 {"x": 0.72, "y": 0.22}, # Top-Right (Far court right)
                 {"x": 0.90, "y": 0.88}, # Bottom-Right (Near court right)
                 {"x": 0.10, "y": 0.88}, # Bottom-Left (Near court left)
-            ],
+            ]
+
+        return {
+            "corners": corners,
             "confidence": confidence,
+            "perspective": persp,
             "is_calibrated": True
         }
 
