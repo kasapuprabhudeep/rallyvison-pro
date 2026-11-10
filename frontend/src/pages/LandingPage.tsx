@@ -163,45 +163,44 @@ export const LandingPage: React.FC = () => {
 
       {/* Featured Badminton Match Poster Action Showcase */}
       <section className="max-w-6xl mx-auto px-4 w-full">
-        <div className="relative rounded-3xl overflow-hidden border-2 border-cyan-500/35 shadow-2xl bg-[#060a1a] group smooth-card">
-          <div className="relative aspect-[21/9] sm:aspect-[16/7] w-full overflow-hidden">
-            <img
-              src={posterImg}
-              alt="Two players playing badminton in tournament rally"
-              className="w-full h-full object-cover object-center group-hover:scale-102 transition-transform duration-700"
-            />
-            {/* Elegant gradient overlays */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#060913] via-[#060913]/40 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#060913]/85 via-transparent to-[#060913]/85" />
+        <div className="relative rounded-3xl overflow-hidden border-2 border-cyan-500/35 shadow-2xl bg-[#060a1a] group smooth-card min-h-[380px] sm:min-h-[300px] flex flex-col justify-between p-5 sm:p-8">
+          {/* Background Image & Rich Gradients */}
+          <img
+            src={posterImg}
+            alt="Two players playing badminton in tournament rally"
+            className="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-102 transition-transform duration-700 pointer-events-none"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#060913] via-[#060913]/75 to-[#060913]/25 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#060913]/90 via-[#060913]/30 to-[#060913]/75 pointer-events-none" />
 
-            {/* Poster Floating Telemetry Badges */}
-            <div className="absolute top-4 left-4 sm:top-6 sm:left-6 flex flex-wrap gap-2">
-              <span className="px-3 py-1 rounded-xl bg-black/75 backdrop-blur-md border border-cyan-400/40 text-cyan-300 text-xs font-mono font-bold flex items-center gap-1.5 shadow-lg">
-                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-                MATCH POINT LIVE RALLY
-              </span>
-              <span className="px-3 py-1 rounded-xl bg-black/75 backdrop-blur-md border border-rose-500/40 text-rose-300 text-xs font-mono font-bold flex items-center gap-1.5 shadow-lg">
-                <SmashRadarIcon className="w-3.5 h-3.5" />
-                JUMP SMASH: 386 KM/H
-              </span>
+          {/* Top Floating Telemetry Badges - Clean and fully separated */}
+          <div className="relative z-10 flex flex-wrap gap-2 mb-4">
+            <span className="px-3 py-1 rounded-xl bg-black/80 backdrop-blur-md border border-cyan-400/40 text-cyan-300 text-xs font-mono font-bold flex items-center gap-1.5 shadow-lg">
+              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+              MATCH POINT LIVE RALLY
+            </span>
+            <span className="px-3 py-1 rounded-xl bg-black/80 backdrop-blur-md border border-rose-500/40 text-rose-300 text-xs font-mono font-bold flex items-center gap-1.5 shadow-lg">
+              <SmashRadarIcon className="w-3.5 h-3.5" />
+              JUMP SMASH: 386 KM/H
+            </span>
+          </div>
+
+          {/* Bottom Headline, Description and Action Button */}
+          <div className="relative z-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4 mt-auto pt-6">
+            <div className="max-w-xl">
+              <h3 className="text-xl sm:text-3xl font-black text-white tracking-tight leading-snug drop-shadow-md">
+                Two Players. One Court. Complete Tactical Insight.
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-200 mt-2 leading-relaxed">
+                From deep baseline smashes to net-kill dives, every movement vector is projected through 4-point homography into real-world meters.
+              </p>
             </div>
 
-            <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 right-4 sm:right-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-              <div className="max-w-xl">
-                <h3 className="text-xl sm:text-3xl font-black text-white tracking-tight drop-shadow">
-                  Two Players. One Court. Complete Tactical Insight.
-                </h3>
-                <p className="text-xs sm:text-sm text-slate-200 mt-1 line-clamp-2">
-                  From deep baseline smashes to net-kill dives, every movement vector is projected through 4-point homography into real-world meters.
-                </p>
-              </div>
-
-              <Link to="/upload" className="shrink-0">
-                <Button size="sm" icon={Play} className="shadow-xl bg-gradient-to-r from-cyan-400 to-blue-500 text-slate-950 font-black">
-                  Record Court Now
-                </Button>
-              </Link>
-            </div>
+            <Link to="/upload" className="shrink-0 w-full sm:w-auto">
+              <Button size="sm" icon={Play} className="w-full sm:w-auto justify-center shadow-xl bg-gradient-to-r from-cyan-400 to-blue-500 text-slate-950 font-black">
+                Record Court Now
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

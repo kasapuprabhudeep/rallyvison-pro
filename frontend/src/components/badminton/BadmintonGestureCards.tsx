@@ -7,9 +7,10 @@ import {
   LiftIcon,
   ShuttlecockSpinIcon
 } from '../icons/BadmintonIcons';
-import smashMiniImg from '../../assets/badminton-smash-mini.jpg';
-import defenseMiniImg from '../../assets/badminton-defense-mini.jpg';
-import fullPosterImg from '../../assets/badminton-match-poster.jpg';
+import smashActionImg from '../../assets/badminton-smash-action.jpg';
+import defenseLiftImg from '../../assets/badminton-defense-lift.jpg';
+import shuttleMacroImg from '../../assets/badminton-shuttle-macro.jpg';
+import doublesClashImg from '../../assets/badminton-doubles-clash.jpg';
 
 interface GesturePoster {
   id: string;
@@ -45,7 +46,7 @@ export const BadmintonGestureCards: React.FC<{ compact?: boolean }> = ({ compact
         '3. Explosive upward snap of wrist and forearm right before net tape',
         '4. Send shuttlecock into an 8.5m high parabolic lob to rear doubles line'
       ],
-      image: defenseMiniImg,
+      image: defenseLiftImg,
       color: '#00f0ff',
       accentBadge: 'AERIAL RESET LIFT',
       tacticalTip: 'A high defensive lift peaking above 8 meters grants you 1.8 seconds of recovery time to reclaim the central T-mark.',
@@ -69,7 +70,7 @@ export const BadmintonGestureCards: React.FC<{ compact?: boolean }> = ({ compact
         '3. Induce high-frequency 420 RPM rotational tumble across the 16 goose feathers',
         '4. Shuttle rolls directly over white net cord with zero bounce response'
       ],
-      image: fullPosterImg,
+      image: shuttleMacroImg,
       color: '#fbbf24',
       accentBadge: '16-FEATHER SPIN DYNAMICS',
       tacticalTip: 'Slicing across the cork base tumbles the feather skirt unpredictably, making net-kill counters nearly impossible for the opponent.',
@@ -93,7 +94,7 @@ export const BadmintonGestureCards: React.FC<{ compact?: boolean }> = ({ compact
         '3. Intercept opponent smash in the mid-court tramline intersection',
         '4. Flat laser return skimming 5cm above net directly into body gap'
       ],
-      image: fullPosterImg,
+      image: doublesClashImg,
       color: '#a855f7',
       accentBadge: 'CROSSED RACKETS CLASH',
       tacticalTip: 'Keeping racket head high and utilizing compact forearm recoil allows lightning-fast counter-attacks during 200+ km/h mid-court rallies.',
@@ -117,7 +118,7 @@ export const BadmintonGestureCards: React.FC<{ compact?: boolean }> = ({ compact
         '3. Cock racket behind spine; unleash rapid internal forearm pronation',
         '4. Steep downward angle follow-through into central court recovery'
       ],
-      image: smashMiniImg,
+      image: smashActionImg,
       color: '#f43f5e',
       accentBadge: 'TERMINAL SMASH ATTACK',
       tacticalTip: 'Jump smash contact point reaches 3.1m above ground, shortening the shuttlecock flight duration to under 0.22 seconds.',
@@ -136,17 +137,19 @@ export const BadmintonGestureCards: React.FC<{ compact?: boolean }> = ({ compact
       {/* Header Bar */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/15 border border-cyan-400/30 text-cyan-300 text-xs font-black uppercase tracking-wider mb-1.5 shadow-sm">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/15 border border-cyan-400/30 text-cyan-300 text-xs font-black uppercase tracking-wider mb-2 shadow-sm">
             <CrossedRacketsLogoIcon className="w-4 h-4" glow={false} />
             <span>Badminton Multi-Theme Action Gestures</span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight flex items-center gap-2">
-            <span>Tactical Technique Mini-Posters</span>
-            <span className="text-xs font-mono px-2 py-0.5 rounded-md bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 font-bold">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2.5">
+            <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+              Tactical Technique Mini-Posters
+            </h2>
+            <span className="w-fit text-[10px] sm:text-xs font-mono px-2.5 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 font-bold tracking-wider">
               LIFT • SHUTTLE • CROSSED RACKETS • SMASH
             </span>
-          </h2>
-          <p className="text-xs sm:text-sm text-slate-300 mt-0.5">
+          </div>
+          <p className="text-xs sm:text-sm text-slate-300 mt-1.5 leading-relaxed">
             Explore dedicated Lift, Shuttlecock Spin, Crossed Rackets, and Smash gesture mechanics with live telemetry.
           </p>
         </div>
@@ -165,21 +168,21 @@ export const BadmintonGestureCards: React.FC<{ compact?: boolean }> = ({ compact
                   ? 'border-cyan-400 shadow-2xl shadow-cyan-500/25 -translate-y-1.5 ring-2 ring-cyan-400/40'
                   : 'border-slate-800/80 hover:border-cyan-400/50 hover:-translate-y-1 hover:shadow-xl'
               }`}
-              style={{ minHeight: compact ? '240px' : '280px' }}
+              style={{ minHeight: compact ? '260px' : '310px' }}
             >
               {/* Poster Image Background with Gradient Glass Overlay */}
               <div className="absolute inset-0 z-0">
                 <img
                   src={poster.image}
                   alt={poster.title}
-                  className="w-full h-full object-cover object-center group-hover:scale-108 transition-transform duration-500"
+                  className="w-full h-full object-cover object-center group-hover:scale-108 transition-transform duration-700 pointer-events-none"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#070c1e] via-[#070c1e]/80 to-[#070c1e]/35" />
-                <div className="absolute inset-0 bg-gradient-to-b from-[#070c1e]/60 via-transparent to-[#070c1e]/90" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#070c1e] via-[#070c1e]/50 to-transparent pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-b from-[#070c1e]/70 via-transparent to-[#070c1e]/90 pointer-events-none" />
               </div>
 
               {/* Top Action Badge */}
-              <div className="relative z-10 p-4 flex items-center justify-between">
+              <div className="relative z-10 p-4 sm:p-5 flex items-center justify-between">
                 <span
                   className="px-2.5 py-1 rounded-xl text-[10px] font-mono font-black uppercase tracking-wider backdrop-blur-md border shadow"
                   style={{
@@ -203,7 +206,7 @@ export const BadmintonGestureCards: React.FC<{ compact?: boolean }> = ({ compact
               </div>
 
               {/* Bottom Telemetry & Title */}
-              <div className="relative z-10 p-4 pt-10 flex flex-col gap-1.5">
+              <div className="relative z-10 p-4 sm:p-5 pt-8 flex flex-col gap-1.5 mt-auto">
                 <div className="flex items-center justify-between">
                   <span className="text-[11px] font-mono font-black text-cyan-300">
                     {poster.speed}
@@ -214,7 +217,7 @@ export const BadmintonGestureCards: React.FC<{ compact?: boolean }> = ({ compact
                   </span>
                 </div>
 
-                <h3 className="text-base font-black text-white tracking-tight leading-tight group-hover:text-cyan-300 transition-colors">
+                <h3 className="text-base sm:text-lg font-black text-white tracking-tight leading-snug group-hover:text-cyan-300 transition-colors">
                   {poster.title}
                 </h3>
 
