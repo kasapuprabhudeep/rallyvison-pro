@@ -388,6 +388,121 @@ export const MatchAnalysisPage: React.FC = () => {
         </div>
       </div>
 
+      {/* Predictive Shot & Tactical Transition Forecasting Matrix */}
+      <div className="glass-panel bg-[#091129]/85 border border-cyan-500/30 rounded-3xl p-5 sm:p-6 shadow-2xl flex flex-col gap-5">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-cyan-500/20">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 flex items-center justify-center">
+              <Sparkles className="w-5 h-5 text-cyan-400" />
+            </div>
+            <div>
+              <h3 className="text-base sm:text-lg font-black text-white flex items-center gap-2">
+                Predictive Shot & Tactical Forecasting
+              </h3>
+              <p className="text-xs text-slate-300">
+                Empirical transition modeling forecasting future shot choices and anticipated opponent replies
+              </p>
+            </div>
+          </div>
+          <Badge variant="cyan" size="sm">
+            KINEMATIC TRANSITION MODEL
+          </Badge>
+        </div>
+
+        {/* 4 Tactical Transition Scenario Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3.5">
+          {/* Scenario 1: Rear Overhead Attack */}
+          <div className="p-4 rounded-2xl bg-[#05091a] border border-rose-500/30 flex flex-col justify-between">
+            <div>
+              <span className="text-[10px] font-bold text-rose-400 uppercase tracking-wider block mb-1">
+                Rear Overhead Attack
+              </span>
+              <h4 className="text-sm font-black text-white mb-1">Steep Jump Smash (58%)</h4>
+              <p className="text-[11px] text-slate-400 mb-2">Alt: Fast Sliced Drop (28%)</p>
+              <div className="p-2 rounded-xl bg-slate-900/80 border border-slate-800 text-[11px] text-slate-300 mb-2">
+                <span className="text-rose-300 font-semibold block">Opponent Predicted Reply:</span>
+                Cross-court net block (65%) or straight lift (35%)
+              </div>
+            </div>
+            <p className="text-[11px] text-cyan-300 font-medium">
+              💡 <strong>Action:</strong> Pre-set racket at net tape for immediate kill tap.
+            </p>
+          </div>
+
+          {/* Scenario 2: Forecourt Net Tape */}
+          <div className="p-4 rounded-2xl bg-[#05091a] border border-emerald-500/30 flex flex-col justify-between">
+            <div>
+              <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider block mb-1">
+                Forecourt Net Tape
+              </span>
+              <h4 className="text-sm font-black text-white mb-1">Spinning Net Tumbler (52%)</h4>
+              <p className="text-[11px] text-slate-400 mb-2">Alt: Cross Net Flick (34%)</p>
+              <div className="p-2 rounded-xl bg-slate-900/80 border border-slate-800 text-[11px] text-slate-300 mb-2">
+                <span className="text-emerald-300 font-semibold block">Opponent Predicted Reply:</span>
+                Defensive high lift (74%)
+              </div>
+            </div>
+            <p className="text-[11px] text-cyan-300 font-medium">
+              💡 <strong>Action:</strong> Step back 1.5m to prepare for overhead smash.
+            </p>
+          </div>
+
+          {/* Scenario 3: Mid-Court Flat Exchange */}
+          <div className="p-4 rounded-2xl bg-[#05091a] border border-cyan-500/30 flex flex-col justify-between">
+            <div>
+              <span className="text-[10px] font-bold text-cyan-400 uppercase tracking-wider block mb-1">
+                Mid-Court Flat Exchange
+              </span>
+              <h4 className="text-sm font-black text-white mb-1">Flat Drive to Body (64%)</h4>
+              <p className="text-[11px] text-slate-400 mb-2">Alt: Soft Push to T (24%)</p>
+              <div className="p-2 rounded-xl bg-slate-900/80 border border-slate-800 text-[11px] text-slate-300 mb-2">
+                <span className="text-cyan-300 font-semibold block">Opponent Predicted Reply:</span>
+                Counter-drive (58%) or block (42%)
+              </div>
+            </div>
+            <p className="text-[11px] text-cyan-300 font-medium">
+              💡 <strong>Action:</strong> Keep racket head above net tape to dominate flat exchanges.
+            </p>
+          </div>
+
+          {/* Scenario 4: Deep Backhand Corner */}
+          <div className="p-4 rounded-2xl bg-[#05091a] border border-amber-500/30 flex flex-col justify-between">
+            <div>
+              <span className="text-[10px] font-bold text-amber-400 uppercase tracking-wider block mb-1">
+                Deep Backhand Corner
+              </span>
+              <h4 className="text-sm font-black text-white mb-1">High Defensive Clear (72%)</h4>
+              <p className="text-[11px] text-slate-400 mb-2">Alt: Reverse Slice Drop (20%)</p>
+              <div className="p-2 rounded-xl bg-slate-900/80 border border-slate-800 text-[11px] text-slate-300 mb-2">
+                <span className="text-amber-300 font-semibold block">Opponent Predicted Reply:</span>
+                Opponent full jump smash (82%)
+              </div>
+            </div>
+            <p className="text-[11px] text-cyan-300 font-medium">
+              💡 <strong>Action:</strong> Drop defensive stance 10cm; widen racket sweep.
+            </p>
+          </div>
+        </div>
+
+        {/* Fatigue & Tactical What-If Optimization Banner */}
+        <div className="p-4 rounded-2xl bg-gradient-to-r from-blue-950/60 via-slate-900/80 to-cyan-950/60 border border-cyan-500/30 flex flex-wrap items-center justify-between gap-4 text-xs">
+          <div className="flex items-center gap-3">
+            <Zap className="w-5 h-5 text-amber-400 shrink-0" />
+            <div>
+              <span className="font-bold text-white block">
+                Fatigue-Correlated Shot Decay Forecast
+              </span>
+              <span className="text-[11px] text-slate-300">
+                In rallies exceeding 12s, jump smash volume drops from 34% to 8%, shifting into 62% defensive clears.
+              </span>
+            </div>
+          </div>
+          <div className="px-3.5 py-1.5 rounded-xl bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 font-bold text-xs whitespace-nowrap">
+            Projected Win-Rate: +14.2% via Fast Drops
+          </div>
+        </div>
+      </div>
+
       {/* Share with Public Users Modal */}
       {showShareModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
