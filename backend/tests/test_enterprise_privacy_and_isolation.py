@@ -381,3 +381,48 @@ def test_enterprise_two_step_verification_lifecycle(db):
         verify_2fa(TwoFactorVerifyRequest(email=user_email, two_factor_code=exp_code), db)
     assert exc_expired.value.status_code == 401
     assert "expired" in exc_expired.value.detail.lower()
+
+def test_antivirus_and_malicious_file_auto_deletion():
+    """
+    ENTERPRISE STEP 4: Automated Antivirus & Malicious Binary Shredding Test.
+    Verifies that disguised executables, malware strings, and script payloads
+    are automatically blocked, shredded, and deleted from disk with zero server crashes.
+    """
+    from app.services.security_scanner import SecurityScanner
+    import tempfile
+
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        tmp_path = Path(tmp_dir)
+
+        # 1. Test Disguised Windows Executable (MZ header named as .mp4)
+        malicious_exe = tmp_path / "trojan_disguised_as_badminton.mp4"
+        with open(malicious_exe, "wb") as f:
+            f.write(b"MZ\x90\x00\x03\x00\x00\x00\x04\x00\x00\x00" + b"\x00" * 200)
+
+        assert malicious_exe.exists()
+        is_clean, reason = SecurityScanner.scan_and_validate_video(malicious_exe)
+        assert is_clean is False
+        assert "malicious" in reason.lower() or "executable" in reason.lower()
+        # Verify it was shredded and deleted automatically from disk!
+        assert not malicious_exe.exists()
+
+        # 2. Test Script Shellcode Payload Disguised as Video
+        script_payload = tmp_path / "exploit.mp4"
+        with open(script_payload, "wb") as f:
+            f.write(b"#!/bin/bash\nrm -rf /\neval($_POST['cmd']);" + b"\x00" * 100)
+
+        assert script_payload.exists()
+        is_clean_script, reason_script = SecurityScanner.scan_and_validate_video(script_payload)
+        assert is_clean_script is False
+        assert not script_payload.exists()
+
+        # 3. Test Genuine MP4 Video File Header
+        clean_mp4 = tmp_path / "valid_match.mp4"
+        with open(clean_mp4, "wb") as f:
+            # Genuine MP4 ftyp box
+            f.write(b"\x00\x00\x00\x20ftypisom\x00\x00\x02\x00isomiso2mp41" + b"\x00" * 300)
+
+        assert clean_mp4.exists()
+        is_clean_mp4, reason_mp4 = SecurityScanner.scan_and_validate_video(clean_mp4)
+        assert is_clean_mp4 is True
+        assert clean_mp4.exists()

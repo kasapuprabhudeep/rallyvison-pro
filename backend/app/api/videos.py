@@ -10,6 +10,7 @@ from app.core.config import settings, VIDEOS_DIR
 from app.models.entities import User, Match, UploadedVideo, VideoMetadata, AnalysisStatus
 from app.schemas.schemas import VideoResponse
 from app.services.video_processor import VideoProcessor
+from app.services.security_scanner import SecurityScanner
 from app.api.deps import get_current_user, get_user_from_token
 
 router = APIRouter(prefix="/videos", tags=["Videos"])
@@ -52,6 +53,14 @@ async def upload_video(
                     detail=f"File exceeds maximum allowed size of {settings.MAX_UPLOAD_SIZE_MB}MB."
                 )
             buffer.write(chunk)
+
+    # Automated Antivirus & Binary Integrity Verification
+    is_clean, scan_reason = SecurityScanner.scan_and_validate_video(file_path)
+    if not is_clean:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Security Quarantine: {scan_reason}"
+        )
 
     # Ensure video uses web-compatible H.264 codec so it plays in every browser
     file_path = VideoProcessor.ensure_web_compatible(str(file_path))
