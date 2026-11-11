@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Sparkles, Shield, User, Bot, RefreshCw, MessageSquare, ArrowRight, Zap, Target, Trash2, Database } from 'lucide-react';
+import { Send, Sparkles, Shield, User, Bot, RefreshCw, MessageSquare, ArrowRight, Zap, Target, Trash2, Database, WifiOff } from 'lucide-react';
 import { api } from '../../services/api';
 
 interface Message {
@@ -45,7 +45,19 @@ export const AICoachChat: React.FC<AICoachChatProps> = ({
   const [loading, setLoading] = useState(false);
   const [historyLoading, setHistoryLoading] = useState(false);
   const [clearingHistory, setClearingHistory] = useState(false);
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -208,14 +220,29 @@ export const AICoachChat: React.FC<AICoachChatProps> = ({
   };
 
   const formatInlineMarkdown = (str: string) => {
-    return str
+    // Escape HTML special characters to prevent cross-site scripting
+    const escaped = str
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+    return escaped
       .replace(/\*\*(.*?)\*\*/g, '<strong class="text-white font-bold">$1</strong>')
       .replace(/\*(.*?)\*/g, '<em class="text-cyan-200">$1</em>')
       .replace(/`([^`]+)`/g, '<code class="bg-[#040817] px-1.5 py-0.5 rounded text-cyan-300 font-mono text-[11px] border border-cyan-500/30">$1</code>');
   };
 
   return (
-    <div className="glass-panel bg-[#091129]/95 border border-cyan-500/35 rounded-3xl overflow-hidden shadow-2xl flex flex-col h-[580px] max-h-[85vh] w-full">
+    <div className="glass-panel bg-[#091129]/95 border border-cyan-500/35 rounded-3xl overflow-hidden shadow-2xl flex flex-col h-[500px] sm:h-[580px] max-h-[75dvh] sm:max-h-[85vh] w-full">
+      {/* Offline Alert Banner */}
+      {!isOnline && (
+        <div className="bg-amber-500/20 border-b border-amber-500/40 text-amber-300 text-xs px-4 py-2 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <WifiOff className="w-4 h-4 text-amber-400 shrink-0" />
+            <span>You are currently offline. Cached telemetry is viewable, but coaching queries require network.</span>
+          </div>
+        </div>
+      )}
+
       {/* Top Header */}
       <div className="p-4 bg-gradient-to-r from-[#070e24] via-[#0b173d] to-[#0d1d4d] border-b border-cyan-500/25 flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -293,7 +320,7 @@ export const AICoachChat: React.FC<AICoachChatProps> = ({
               </div>
 
               <div
-                className={`max-w-[92%] sm:max-w-[85%] p-3.5 rounded-2xl ${
+                className={`max-w-[92%] sm:max-w-[85%] p-3.5 rounded-2xl break-words overflow-hidden ${
                   isCoach
                     ? 'bg-[#050b1d] border border-cyan-500/25 text-slate-200 shadow-md'
                     : 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-medium shadow-lg shadow-cyan-600/20'
@@ -363,18 +390,23 @@ export const AICoachChat: React.FC<AICoachChatProps> = ({
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
           placeholder={
-            matchTitle
+            !isOnline
+              ? "Reconnecting to network..."
+              : matchTitle
               ? `Ask about smash speed, footwork, or tactics for ${matchTitle}...`
               : "Ask anything about badminton technique, drills, or rules..."
           }
-          disabled={loading}
-          className="flex-1 bg-[#09122c] border border-cyan-500/30 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
+          disabled={loading || !isOnline}
+          autoComplete="off"
+          enterKeyHint="send"
+          spellCheck={false}
+          className="flex-1 bg-[#09122c] border border-cyan-500/30 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 disabled:opacity-50"
         />
 
         <button
           type="submit"
-          disabled={!inputText.trim() || loading}
-          className="px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 disabled:opacity-40 disabled:cursor-not-allowed text-slate-950 font-black flex items-center gap-1.5 transition-all shadow-md shadow-cyan-500/20"
+          disabled={!inputText.trim() || loading || !isOnline}
+          className="px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 disabled:opacity-40 disabled:cursor-not-allowed text-slate-950 font-black flex items-center gap-1.5 transition-all shadow-md shadow-cyan-500/20 touch-manipulation min-h-[38px]"
         >
           <Send className="w-3.5 h-3.5 fill-current" />
           <span className="hidden sm:inline text-xs">Ask</span>

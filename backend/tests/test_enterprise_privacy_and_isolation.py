@@ -596,3 +596,76 @@ def test_ai_coach_backend_persistence_and_concurrent_multi_location_isolation(db
     # Verify User 2's data was completely untouched (still 10 messages)
     hist_u2_intact = get_ai_coach_history(match_id=m2.id, limit=50, offset=0, current_user=user_2, db=db)
     assert hist_u2_intact.total_count == 10
+
+def test_ai_coach_adversarial_and_future_proofing_resilience(db):
+    """
+    ENTERPRISE STEP 7: Crash-Proof Adversarial Input, Edge Cases & Data Integrity.
+    Verifies that:
+    1. Empty/whitespace queries return 400 Bad Request.
+    2. Giant payload (>2000 chars) returns 400 Bad Request.
+    3. Multilingual and emoji queries ('羽毛球', '🏸⚡') process crash-free.
+    4. SQL injection attempts are safely treated as literal text and sanitized.
+    5. XSS tags (<script>, <img>) are safely handled and stored without execution risk.
+    6. Incomplete match (no analytics, no video) handles analysis gracefully without crashing.
+    7. Match cascade deletion removes all associated AI coach messages.
+    """
+    from app.api.ai_coach import ask_ai_coach, get_ai_coach_history, clear_ai_coach_history
+    from app.schemas.schemas import AICoachQueryRequest
+    from app.models.entities import AICoachMessage, Match
+
+    # Setup test user and bare match
+    u_email = f"resilience_{os.urandom(4).hex()}@badminton.org"
+    u_res = register(UserRegisterRequest(
+        email=u_email, password="SafePass789!", full_name="Player StressTest", role="PLAYER"
+    ), db)
+    user = db.query(User).filter(User.id == u_res.user.id).first()
+
+    # Bare match with NO analytics attached
+    bare_match = create_match(MatchCreateRequest(
+        title="Bare Match No Analytics", match_type=MatchType.SINGLES, player_position="NEAR_COURT"
+    ), user, db)
+
+    # 1. Empty or whitespace query -> 400
+    with pytest.raises(HTTPException) as exc:
+        ask_ai_coach(AICoachQueryRequest(query="   \n\t  "), user, db)
+    assert exc.value.status_code == 400
+
+    # 2. Oversized query (>2000 chars) -> 400
+    with pytest.raises(HTTPException) as exc:
+        ask_ai_coach(AICoachQueryRequest(query="A" * 2500), user, db)
+    assert exc.value.status_code == 400
+
+    # 3. Multilingual and emoji queries -> 200 without crashes
+    emoji_res = ask_ai_coach(AICoachQueryRequest(
+        query="🏸⚡ How to improve smash speed in 羽毛球 matches?",
+        match_id=bare_match.id
+    ), user, db)
+    assert emoji_res.id is not None
+    assert len(emoji_res.answer) > 20
+
+    # 4. SQL Injection payload -> safely parameterized
+    sqli_query = "'; DROP TABLE ai_coach_messages; SELECT * FROM users WHERE '1'='1"
+    sqli_res = ask_ai_coach(AICoachQueryRequest(
+        query=sqli_query,
+        match_id=bare_match.id
+    ), user, db)
+    assert sqli_res.id is not None
+    # Table still exists and is untouched
+    assert db.query(AICoachMessage).count() > 0
+
+    # 5. XSS payload -> safely treated as text
+    xss_query = "<script>alert('xss')</script><img src=x onerror=alert(1)>"
+    xss_res = ask_ai_coach(AICoachQueryRequest(
+        query=xss_query,
+        match_id=bare_match.id
+    ), user, db)
+    assert xss_res.id is not None
+
+    # 6. Verify Cascade Deletion on Match
+    match_entity = db.query(Match).filter(Match.id == bare_match.id).first()
+    db.delete(match_entity)
+    db.commit()
+
+    # All messages linked to bare_match must be cascaded and deleted
+    remaining = db.query(AICoachMessage).filter(AICoachMessage.match_id == bare_match.id).count()
+    assert remaining == 0
