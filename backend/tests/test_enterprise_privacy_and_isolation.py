@@ -480,3 +480,119 @@ def test_ai_coach_query_and_privacy_isolation(db):
     ), user_b, db)
     assert "13.40" in res_gen.answer or "13.4" in res_gen.answer
     assert "court" in res_gen.answer.lower()
+
+def test_ai_coach_backend_persistence_and_concurrent_multi_location_isolation(db):
+    """
+    ENTERPRISE STEP 6: Multi-Tenant AI Q&A Backend Persistence & High-Concurrency Isolation.
+    Verifies that:
+    1. Every Q&A interaction is securely persisted in the backend database.
+    2. History queries return messages chronologically and strictly isolate tenant data.
+    3. User B cannot see User A's questions or answers.
+    4. Simulates concurrent queries from multiple users simultaneously (different locations).
+    5. User can clear their history securely without affecting other users.
+    """
+    import concurrent.futures
+    from app.api.ai_coach import ask_ai_coach, get_ai_coach_history, clear_ai_coach_history
+    from app.schemas.schemas import AICoachQueryRequest
+    from app.models.entities import AICoachMessage
+
+    # 1. Register User 1 and create match
+    u1_email = f"loc_user1_{os.urandom(4).hex()}@badminton.org"
+    u1_res = register(UserRegisterRequest(
+        email=u1_email, password="SafePass123!", full_name="User Tokyo", role="PLAYER"
+    ), db)
+    user_1 = db.query(User).filter(User.id == u1_res.user.id).first()
+
+    m1 = create_match(MatchCreateRequest(
+        title="Tokyo Open Finals", match_type=MatchType.SINGLES, player_position="NEAR_COURT"
+    ), user_1, db)
+
+    # 2. Register User 2
+    u2_email = f"loc_user2_{os.urandom(4).hex()}@badminton.org"
+    u2_res = register(UserRegisterRequest(
+        email=u2_email, password="SafePass456!", full_name="User London", role="PLAYER"
+    ), db)
+    user_2 = db.query(User).filter(User.id == u2_res.user.id).first()
+
+    m2 = create_match(MatchCreateRequest(
+        title="All England Championship", match_type=MatchType.SINGLES, player_position="NEAR_COURT"
+    ), user_2, db)
+
+    # 3. User 1 asks 2 questions
+    q1 = ask_ai_coach(AICoachQueryRequest(
+        query="What string tension should I use for higher smash control?",
+        match_id=m1.id
+    ), user_1, db)
+    assert q1.id is not None
+    assert "tension" in q1.answer.lower()
+
+    q2 = ask_ai_coach(AICoachQueryRequest(
+        query="How does central base recovery improve defensive returns?",
+        match_id=m1.id
+    ), user_1, db)
+    assert q2.id is not None
+
+    # 4. Verify User 1 can retrieve their 2 persisted messages
+    hist_u1 = get_ai_coach_history(match_id=m1.id, limit=50, offset=0, current_user=user_1, db=db)
+    assert hist_u1.total_count == 2
+    assert len(hist_u1.messages) == 2
+    assert hist_u1.messages[0].query == "What string tension should I use for higher smash control?"
+    assert hist_u1.messages[1].query == "How does central base recovery improve defensive returns?"
+
+    # 5. PRIVACY ISOLATION CHECK: User 2 retrieves their history -> must be empty
+    hist_u2 = get_ai_coach_history(match_id=m2.id, limit=50, offset=0, current_user=user_2, db=db)
+    assert hist_u2.total_count == 0
+    assert len(hist_u2.messages) == 0
+
+    # User 2 attempting to view User 1's match history must receive 404
+    with pytest.raises(HTTPException) as exc:
+        get_ai_coach_history(match_id=m1.id, limit=50, offset=0, current_user=user_2, db=db)
+    assert exc.value.status_code == 404
+
+    # 6. HIGH-CONCURRENCY SIMULATION:
+    # Simulate multiple concurrent queries from different user sessions simultaneously
+    def run_concurrent_query(query_idx):
+        from app.core.database import SessionLocal
+        local_db = SessionLocal()
+        try:
+            # Query as user_1 or user_2 alternatively
+            active_user = user_1 if query_idx % 2 == 0 else user_2
+            active_match = m1 if query_idx % 2 == 0 else m2
+            res = ask_ai_coach(AICoachQueryRequest(
+                query=f"Tactical question {query_idx}: how to optimize court defense?",
+                match_id=active_match.id
+            ), active_user, local_db)
+            return (res.id is not None, active_user.id)
+        finally:
+            local_db.close()
+
+    # Execute 20 concurrent queries across threads
+    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+        futures = [executor.submit(run_concurrent_query, i) for i in range(20)]
+        results = [f.result() for f in concurrent.futures.as_completed(futures)]
+
+    # Verify all 20 succeeded
+    assert len(results) == 20
+    assert all(success for success, _ in results)
+
+    # 7. Check user-level isolation after concurrent operations
+    hist_u1_after = get_ai_coach_history(match_id=m1.id, limit=100, offset=0, current_user=user_1, db=db)
+    # User 1 had 2 initial + 10 from concurrency = 12 messages
+    assert hist_u1_after.total_count == 12
+
+    hist_u2_after = get_ai_coach_history(match_id=m2.id, limit=100, offset=0, current_user=user_2, db=db)
+    # User 2 had 0 initial + 10 from concurrency = 10 messages
+    assert hist_u2_after.total_count == 10
+
+    # 8. Test History Clear for User 1
+    clear_res = clear_ai_coach_history(match_id=m1.id, current_user=user_1, db=db)
+    assert clear_res["status"] == "success"
+    assert clear_res["deleted_count"] == 12
+
+    # Verify User 1 now has 0 messages
+    hist_u1_cleared = get_ai_coach_history(match_id=m1.id, limit=50, offset=0, current_user=user_1, db=db)
+    assert hist_u1_cleared.total_count == 0
+
+    # Verify User 2's data was completely untouched (still 10 messages)
+    hist_u2_intact = get_ai_coach_history(match_id=m2.id, limit=50, offset=0, current_user=user_2, db=db)
+    assert hist_u2_intact.total_count == 10

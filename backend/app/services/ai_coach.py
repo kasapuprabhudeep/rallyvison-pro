@@ -109,9 +109,32 @@ class AICoachService:
         q = query.lower()
 
         # ---------------------------------------------------------
-        # Category A: Smash Speed & Offensive Power
+        # Category 1: Rules, Dimensions & Equipment (Prioritized)
         # ---------------------------------------------------------
-        if any(w in q for w in ["smash", "speed", "power", "velocity", "jump smash", "faster"]):
+        if any(w in q for w in ["dimension", "court size", "meter", "feet", "racket", "string", "tension", "shuttlecock", "shuttle", "rule", "equipment"]):
+            ans = (
+                "### 📐 BWF Court Specifications & Equipment Standards\n\n"
+                "• **Court Length:** Exactly **13.40 meters (44 feet)**.\n"
+                "• **Half-Court Length:** Exactly **6.70 meters (22 feet)** from net to baseline.\n"
+                "• **Doubles Width:** **6.10 meters (20 feet)** | **Singles Width:** **5.18 meters (17 feet)**.\n"
+                "• **Net Height:** **1.524 meters (5 feet)** at the center.\n\n"
+                "**Equipment Recommendations by Level:**\n"
+                "• **Beginner / Intermediate:** Racket weight 3U (85-89g) or 4U (80-84g) with **22-24 lbs string tension** (larger sweet spot, better power generation).\n"
+                "• **Advanced / Competitive:** Stiff shaft with **26-29 lbs string tension** for precise shuttle placement, crisp acoustic response, and surgical control.\n"
+                "• **Tournament Shuttles:** Grade 1 natural goose feather shuttlecocks with 16 feathers (Speed 77 for normal temperatures, Speed 76 for hot arenas)."
+            )
+
+            followups = [
+                "Why do people confuse 22 meters with 22 feet?",
+                "What string tension gives the highest smash speed vs control?",
+                "What is the difference between head-heavy and even-balance rackets?"
+            ]
+            return ans, followups
+
+        # ---------------------------------------------------------
+        # Category 2: Smash Speed & Offensive Power
+        # ---------------------------------------------------------
+        elif any(w in q for w in ["smash", "speed", "power", "velocity", "jump smash", "faster"]):
             max_spd = ctx.get("max_speed_kmh", 16.5)
             shots = ctx.get("shot_distribution", {})
             smash_count = shots.get("SMASH", 0)
@@ -264,29 +287,6 @@ class AICoachService:
                 "What foods should I eat before a badminton match?",
                 "How do I recover faster between sets?",
                 "What is an ideal work-to-rest ratio in singles?"
-            ]
-            return ans, followups
-
-        # ---------------------------------------------------------
-        # Category E: Rules, Dimensions & Equipment
-        # ---------------------------------------------------------
-        elif any(w in q for w in ["dimension", "court", "size", "meter", "feet", "racket", "string", "tension", "shuttle", "rule"]):
-            ans = (
-                "### 📐 BWF Court Specifications & Equipment Standards\n\n"
-                "• **Court Length:** Exactly **13.40 meters (44 feet)**.\n"
-                "• **Half-Court Length:** Exactly **6.70 meters (22 feet)** from net to baseline.\n"
-                "• **Doubles Width:** **6.10 meters (20 feet)** | **Singles Width:** **5.18 meters (17 feet)**.\n"
-                "• **Net Height:** **1.524 meters (5 feet)** at the center.\n\n"
-                "**Equipment Recommendations by Level:**\n"
-                "• **Beginner / Intermediate:** Racket weight 3U (85-89g) or 4U (80-84g) with **22-24 lbs string tension** (larger sweet spot, better power generation).\n"
-                "• **Advanced / Competitive:** Stiff shaft with **26-29 lbs string tension** for precise shuttle placement and crisp acoustic response.\n"
-                "• **Tournament Shuttles:** Grade 1 natural goose feather shuttlecocks with 16 feathers (Speed 77 for normal temperatures, Speed 76 for hot arenas)."
-            )
-
-            followups = [
-                "Why do people confuse 22 meters with 22 feet?",
-                "What string tension is best for smashes?",
-                "What is the difference between head-heavy and even-balance rackets?"
             ]
             return ans, followups
 

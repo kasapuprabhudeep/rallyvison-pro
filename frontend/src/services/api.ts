@@ -390,6 +390,7 @@ export const api = {
 
   // AI Tactical Coach
   async askAICoach(query: string, matchId?: number): Promise<{
+    id?: number;
     answer: string;
     grounded_metrics: Record<string, any>;
     suggested_followups: string[];
@@ -400,6 +401,38 @@ export const api = {
       method: 'POST',
       headers: getAuthHeaders(),
       body: JSON.stringify({ query, match_id: matchId })
+    });
+    return handleResponse(res);
+  },
+
+  async getAICoachHistory(matchId?: number, limit = 50): Promise<{
+    messages: Array<{
+      id: number;
+      user_id: number;
+      match_id?: number;
+      query: string;
+      answer: string;
+      grounded_metrics?: Record<string, any>;
+      suggested_followups?: string[];
+      created_at: string;
+    }>;
+    total_count: number;
+  }> {
+    const params = new URLSearchParams();
+    if (matchId !== undefined) params.append('match_id', matchId.toString());
+    params.append('limit', limit.toString());
+    const res = await fetch(`${API_BASE}/ai/history?${params.toString()}`, {
+      headers: getAuthHeaders()
+    });
+    return handleResponse(res);
+  },
+
+  async clearAICoachHistory(matchId?: number): Promise<{ status: string; message: string; deleted_count: number }> {
+    const params = new URLSearchParams();
+    if (matchId !== undefined) params.append('match_id', matchId.toString());
+    const res = await fetch(`${API_BASE}/ai/history?${params.toString()}`, {
+      method: 'DELETE',
+      headers: getAuthHeaders()
     });
     return handleResponse(res);
   }

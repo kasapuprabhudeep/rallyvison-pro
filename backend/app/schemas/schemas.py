@@ -272,9 +272,25 @@ class AICoachQueryRequest(BaseModel):
     match_id: Optional[int] = None
 
 class AICoachQueryResponse(BaseModel):
+    id: Optional[int] = None
     answer: str
     grounded_metrics: Dict[str, Any] = {}
     suggested_followups: List[str] = []
     match_context_included: bool = False
     timestamp: datetime
+
+class AICoachMessageResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    id: int
+    user_id: int
+    match_id: Optional[int] = None
+    query: str
+    answer: str
+    grounded_metrics: Optional[Dict[str, Any]] = {}
+    suggested_followups: Optional[List[str]] = []
+    created_at: datetime
+
+class AICoachHistoryResponse(BaseModel):
+    messages: List[AICoachMessageResponse]
+    total_count: int
 

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Sparkles, Shield, User, Bot, RefreshCw, MessageSquare, ArrowRight, Zap, Target } from 'lucide-react';
+import { Send, Sparkles, Shield, User, Bot, RefreshCw, MessageSquare, ArrowRight, Zap, Target, Trash2, Database } from 'lucide-react';
 import { api } from '../../services/api';
 
 interface Message {
@@ -43,15 +43,82 @@ export const AICoachChat: React.FC<AICoachChatProps> = ({
   ]);
   const [inputText, setInputText] = useState('');
   const [loading, setLoading] = useState(false);
+  const [historyLoading, setHistoryLoading] = useState(false);
+  const [clearingHistory, setClearingHistory] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  // Load previous persisted coaching history on mount or when matchId changes
+  useEffect(() => {
+    let isMounted = true;
+    const fetchHistory = async () => {
+      try {
+        setHistoryLoading(true);
+        const res = await api.getAICoachHistory(matchId);
+        if (!isMounted) return;
+        if (res && res.messages && res.messages.length > 0) {
+          const loaded: Message[] = [];
+          res.messages.forEach((record) => {
+            loaded.push({
+              id: `hist-user-${record.id}`,
+              sender: 'USER',
+              text: record.query,
+              timestamp: new Date(record.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            });
+            loaded.push({
+              id: `hist-coach-${record.id}`,
+              sender: 'COACH',
+              text: record.answer,
+              timestamp: new Date(record.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+              metrics: record.grounded_metrics,
+              followups: record.suggested_followups
+            });
+          });
+          setMessages(loaded);
+        }
+      } catch (err) {
+        // Fallback gracefully without breaking if network drops
+        console.warn("Could not fetch AI coach history:", err);
+      } finally {
+        if (isMounted) setHistoryLoading(false);
+      }
+    };
+
+    fetchHistory();
+    return () => {
+      isMounted = false;
+    };
+  }, [matchId]);
+
   useEffect(() => {
     scrollToBottom();
-  }, [messages, loading]);
+  }, [messages, loading, historyLoading]);
+
+  const handleClearHistory = async () => {
+    if (!window.confirm("Are you sure you want to securely clear your coaching conversation history?")) return;
+    try {
+      setClearingHistory(true);
+      await api.clearAICoachHistory(matchId);
+      setMessages([
+        {
+          id: 'welcome',
+          sender: 'COACH',
+          text: matchTitle
+            ? `Conversation history cleared securely. Ready for new questions regarding **${matchTitle}**!`
+            : `Conversation history cleared securely. Ready for your questions!`,
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          followups: DEFAULT_SUGGESTIONS
+        }
+      ]);
+    } catch (err: any) {
+      alert(err.message || 'Failed to clear coaching history.');
+    } finally {
+      setClearingHistory(false);
+    }
+  };
 
   const handleSend = async (queryText?: string) => {
     const textToSend = (queryText || inputText).trim();
@@ -71,7 +138,7 @@ export const AICoachChat: React.FC<AICoachChatProps> = ({
     try {
       const res = await api.askAICoach(textToSend, matchId);
       const coachMsg: Message = {
-        id: `coach-${Date.now()}`,
+        id: `coach-${res.id || Date.now()}`,
         sender: 'COACH',
         text: res.answer,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
@@ -175,15 +242,34 @@ export const AICoachChat: React.FC<AICoachChatProps> = ({
               {matchTitle}
             </span>
           )}
+          <span className="hidden md:flex items-center gap-1 px-2.5 py-1 rounded-xl bg-cyan-950/60 border border-cyan-500/30 text-[10px] text-cyan-300 font-medium">
+            <Database className="w-3 h-3 text-cyan-400" />
+            Backend Stored
+          </span>
           <span className="flex items-center gap-1 px-2.5 py-1 rounded-xl bg-emerald-950/60 border border-emerald-500/30 text-[10px] text-emerald-300 font-medium">
             <Shield className="w-3 h-3 text-emerald-400" />
             Isolated Session
           </span>
+          <button
+            onClick={handleClearHistory}
+            disabled={clearingHistory || loading || historyLoading}
+            title="Securely clear coaching conversation history"
+            className="p-1.5 rounded-xl bg-slate-900/60 hover:bg-rose-500/20 text-slate-400 hover:text-rose-400 border border-slate-700/50 transition-colors flex items-center gap-1 text-[10px]"
+          >
+            <Trash2 className="w-3.5 h-3.5" />
+            <span className="hidden lg:inline">{clearingHistory ? 'Clearing...' : 'Clear'}</span>
+          </button>
         </div>
       </div>
 
       {/* Messages Stream */}
       <div className="flex-1 p-4 overflow-y-auto space-y-4 text-xs select-text">
+        {historyLoading && (
+          <div className="flex items-center justify-center p-3 text-slate-400 text-xs gap-2">
+            <RefreshCw className="w-3.5 h-3.5 animate-spin text-cyan-400" />
+            <span>Retrieving saved tactical notes...</span>
+          </div>
+        )}
         {messages.map((m) => {
           const isCoach = m.sender === 'COACH';
           return (
@@ -297,3 +383,4 @@ export const AICoachChat: React.FC<AICoachChatProps> = ({
     </div>
   );
 };
+

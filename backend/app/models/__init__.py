@@ -18,6 +18,7 @@ from app.models.entities import (
     MatchAnalytics,
     PerformanceRecommendation,
     GeneratedReport,
+    AICoachMessage,
 )
 
 __all__ = [
@@ -40,5 +41,6 @@ __all__ = [
     "MatchAnalytics",
     "PerformanceRecommendation",
     "GeneratedReport",
+    "AICoachMessage",
 ]
 

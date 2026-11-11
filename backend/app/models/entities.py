@@ -2,10 +2,10 @@ import enum
 from datetime import datetime, timezone
 from sqlalchemy import (
     Column, Integer, String, Float, Boolean, DateTime, ForeignKey, 
-    Text, JSON, Enum
+    Text, JSON, Enum, Index
 )
 from sqlalchemy.orm import relationship
-from app.core.database import Base
+from app.core.database import Base, engine
 
 def utcnow():
     return datetime.now(timezone.utc)
@@ -50,6 +50,7 @@ class User(Base):
 
     profile = relationship("UserProfile", back_populates="user", uselist=False, cascade="all, delete-orphan")
     matches = relationship("Match", back_populates="user", cascade="all, delete-orphan")
+    ai_coach_messages = relationship("AICoachMessage", back_populates="user", cascade="all, delete-orphan")
 
 class UserProfile(Base):
     __tablename__ = "user_profiles"
@@ -109,6 +110,7 @@ class Match(Base):
     analytics = relationship("MatchAnalytics", back_populates="match", uselist=False, cascade="all, delete-orphan")
     recommendations = relationship("PerformanceRecommendation", back_populates="match", cascade="all, delete-orphan")
     reports = relationship("GeneratedReport", back_populates="match", cascade="all, delete-orphan")
+    ai_coach_messages = relationship("AICoachMessage", back_populates="match", cascade="all, delete-orphan")
 
 class UploadedVideo(Base):
     __tablename__ = "uploaded_videos"
@@ -302,4 +304,29 @@ class GeneratedReport(Base):
     created_at = Column(DateTime, default=utcnow)
 
     match = relationship("Match", back_populates="reports")
+
+class AICoachMessage(Base):
+    __tablename__ = "ai_coach_messages"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True)
+    match_id = Column(Integer, ForeignKey("matches.id", ondelete="CASCADE"), nullable=True, index=True)
+    query = Column(Text, nullable=False)
+    answer = Column(Text, nullable=False)
+    grounded_metrics = Column(JSON, default=dict)
+    suggested_followups = Column(JSON, default=list)
+    created_at = Column(DateTime, default=utcnow, index=True)
+
+    __table_args__ = (
+        Index("ix_ai_coach_user_match", "user_id", "match_id"),
+        Index("ix_ai_coach_user_created", "user_id", "created_at"),
+    )
+
+    user = relationship("User", back_populates="ai_coach_messages")
+    match = relationship("Match", back_populates="ai_coach_messages")
+
+# Automatically ensure all tables and indexes are created
+Base.metadata.create_all(bind=engine)
+
+
 
