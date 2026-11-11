@@ -1,27 +1,27 @@
 @import "tailwindcss";
 
 @layer base {
-  :root, [data-theme="emerald"] {
-    /* Mesmerizing Tournament Midnight Cobalt & Electric Cyan/Indigo Shading */
-    --bg-primary: #060913;
-    --bg-surface: #0a1124;
-    --bg-card: #0f1936;
-    --bg-card-hover: #16244d;
-    --border-subtle: #1c2b54;
-    --border-bright: #29407a;
+  :root, [data-theme="emerald"], [data-theme="classic"] {
+    /* Natural Tournament Arena - Sleek Dark Slate, Natural Shuttlecock White & Warm Amber Gold */
+    --bg-primary: #080c18;
+    --bg-surface: #0d152b;
+    --bg-card: #121c38;
+    --bg-card-hover: #19274d;
+    --border-subtle: #1e3059;
+    --border-bright: #2e4985;
     
-    --accent-cyan: #00f0ff;
+    --accent-cyan: #38bdf8;
     --accent-indigo: #6366f1;
     --accent-purple: #a855f7;
-    --accent-amber: #facc15;
+    --accent-amber: #f59e0b;
     --accent-rose: #f43f5e;
-    --accent-electric: #38bdf8;
+    --accent-electric: #0ea5e9;
     
-    --court-surface: #0a1738;
-    --court-line: #00f0ff;
+    --court-surface: #0a142e;
+    --court-line: #ffffff;
     
     --text-primary: #ffffff;
-    --text-secondary: #e0e7ff;
+    --text-secondary: #e2e8f0;
     --text-muted: #94a3b8;
   }
 
@@ -102,12 +102,12 @@
   }
 }
 
-/* Mesmerizing Dual-Tone Ambient Shading Overlay */
+/* Natural Tournament Arena Ambient Shading Overlay */
 .mesmerizing-shading {
   background-image: 
-    radial-gradient(circle at 85% 15%, rgba(0, 240, 255, 0.12) 0%, transparent 55%),
-    radial-gradient(circle at 15% 85%, rgba(99, 102, 241, 0.14) 0%, transparent 60%),
-    radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.06) 0%, transparent 70%);
+    radial-gradient(circle at 85% 15%, rgba(56, 189, 248, 0.08) 0%, transparent 55%),
+    radial-gradient(circle at 15% 85%, rgba(99, 102, 241, 0.09) 0%, transparent 60%),
+    radial-gradient(circle at 50% 50%, rgba(245, 158, 11, 0.04) 0%, transparent 70%);
 }
 
 /* Crossed Badminton Rackets Background Watermark */

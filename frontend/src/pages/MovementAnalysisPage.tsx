@@ -51,7 +51,7 @@ export const MovementAnalysisPage: React.FC = () => {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-3">
-        <div className="w-10 h-10 border-4 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin" />
+        <div className="w-10 h-10 border-4 border-cyan-500/20 border-t-cyan-500 rounded-full animate-spin" />
         <span className="text-xs text-slate-400 font-medium">Computing footwork trajectories...</span>
       </div>
     );
@@ -73,7 +73,7 @@ export const MovementAnalysisPage: React.FC = () => {
       {/* Header Breadcrumb */}
       <div>
         <div className="flex items-center gap-2 text-xs text-slate-400 mb-1">
-          <Link to={`/matches/${match.id}/analysis`} className="hover:text-emerald-400 transition-colors">
+          <Link to={`/matches/${match.id}/analysis`} className="hover:text-cyan-400 transition-colors">
             Analysis Hub
           </Link>
           <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
@@ -127,7 +127,7 @@ export const MovementAnalysisPage: React.FC = () => {
               <h3 className="text-base font-bold text-white">Instantaneous Movement Velocity (km/h)</h3>
               <p className="text-xs text-slate-400">Time-stamped speed fluctuations across rallies</p>
             </div>
-            <span className="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+            <span className="text-xs font-mono text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/20">
               Peak: {a.max_movement_speed_kmh} km/h
             </span>
           </div>
@@ -146,10 +146,10 @@ export const MovementAnalysisPage: React.FC = () => {
                   type="monotone"
                   dataKey="speed"
                   name="Speed (km/h)"
-                  stroke="#10b981"
+                  stroke="#0284c7"
                   strokeWidth={2}
                   dot={false}
-                  activeDot={{ r: 5, fill: '#00ff88' }}
+                  activeDot={{ r: 5, fill: '#38bdf8' }}
                 />
               </LineChart>
             </ResponsiveContainer>
@@ -176,11 +176,11 @@ export const MovementAnalysisPage: React.FC = () => {
               <div key={zone} className="flex flex-col gap-1">
                 <div className="flex items-center justify-between text-xs">
                   <span className="font-semibold text-slate-300">{zone.replace('_', ' ')}</span>
-                  <span className="font-mono text-emerald-400 font-bold">{pct.toFixed(1)}%</span>
+                  <span className="font-mono text-cyan-400 font-bold">{pct.toFixed(1)}%</span>
                 </div>
                 <div className="w-full h-2 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
                   <div
-                    className="h-full bg-emerald-500 rounded-full"
+                    className="h-full bg-cyan-500 rounded-full"
                     style={{ width: `${Math.min(100, pct)}%` }}
                   />
                 </div>
@@ -189,7 +189,7 @@ export const MovementAnalysisPage: React.FC = () => {
           </div>
 
           <div className="mt-6 p-4 rounded-xl bg-slate-900/80 border border-slate-800 text-xs text-slate-400 flex items-start gap-2.5">
-            <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+            <ShieldCheck className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
             <p className="leading-relaxed">
               <strong>Measurement Authenticity:</strong> Distances and velocities are strictly computed through the 4-point court perspective homography matrix ($H$).
             </p>

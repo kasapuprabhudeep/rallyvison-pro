@@ -35,7 +35,7 @@ export const SettingsPage: React.FC = () => {
       </div>
 
       {saved && (
-        <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs flex items-center gap-2">
+        <div className="p-4 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs flex items-center gap-2">
           <CheckCircle2 className="w-4 h-4 shrink-0" />
           <span>Preferences updated successfully.</span>
         </div>
@@ -45,7 +45,7 @@ export const SettingsPage: React.FC = () => {
         {/* Video Processing Settings */}
         <div>
           <h3 className="text-sm font-bold uppercase tracking-wider text-white flex items-center gap-2 mb-3">
-            <Video className="w-4 h-4 text-emerald-400" />
+            <Video className="w-4 h-4 text-cyan-400" />
             <span>Video Processing & Sampling</span>
           </h3>
 
@@ -59,7 +59,7 @@ export const SettingsPage: React.FC = () => {
                 type="checkbox"
                 checked={autoAnalyze}
                 onChange={(e) => setAutoAnalyze(e.target.checked)}
-                className="w-4 h-4 accent-emerald-500"
+                className="w-4 h-4 accent-cyan-500"
               />
             </div>
 
@@ -97,7 +97,7 @@ export const SettingsPage: React.FC = () => {
               type="checkbox"
               checked={soundEnabled}
               onChange={(e) => setSoundEnabled(e.target.checked)}
-              className="w-4 h-4 accent-emerald-500"
+              className="w-4 h-4 accent-cyan-500"
             />
           </div>
         </div>
@@ -105,7 +105,7 @@ export const SettingsPage: React.FC = () => {
         {/* Account Data & Privacy Governance Link */}
         <div className="pt-4 border-t border-slate-800 flex items-center justify-between p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
           <div>
-            <div className="flex items-center gap-2 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-0.5">
+            <div className="flex items-center gap-2 text-cyan-400 text-xs font-bold uppercase tracking-wider mb-0.5">
               <ShieldCheck className="w-4 h-4" />
               <span>Data Privacy & Security Controls</span>
             </div>

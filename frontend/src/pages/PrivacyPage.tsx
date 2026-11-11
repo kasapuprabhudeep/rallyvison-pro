@@ -141,7 +141,7 @@ export const PrivacyPage: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto flex flex-col gap-8 pb-12">
       <div>
-        <div className="flex items-center gap-2 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-1">
+        <div className="flex items-center gap-2 text-cyan-400 text-xs font-bold uppercase tracking-wider mb-1">
           <ShieldCheck className="w-4 h-4" />
           <span>Security & Sovereignty</span>
         </div>
@@ -154,7 +154,7 @@ export const PrivacyPage: React.FC = () => {
       </div>
 
       {savedMessage && (
-        <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs flex items-center gap-2">
+        <div className="p-4 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs flex items-center gap-2">
           <CheckCircle2 className="w-4 h-4 shrink-0" />
           <span>{savedMessage}</span>
         </div>
@@ -170,14 +170,14 @@ export const PrivacyPage: React.FC = () => {
       {/* Security Architecture Guarantees */}
       <div className="p-6 rounded-3xl bg-[#0f172a] border border-[#1e293b] flex flex-col gap-4">
         <h2 className="text-sm font-bold uppercase tracking-wider text-slate-200 flex items-center gap-2">
-          <Lock className="w-4 h-4 text-emerald-400" />
+          <Lock className="w-4 h-4 text-cyan-400" />
           <span>Core Privacy Safeguards</span>
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
           <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col gap-2">
             <div className="flex items-center gap-2 font-bold text-white">
-              <EyeOff className="w-4 h-4 text-emerald-400" />
+              <EyeOff className="w-4 h-4 text-cyan-400" />
               <span>Strict Data Isolation</span>
             </div>
             <p className="text-slate-400 leading-relaxed text-[11px]">
@@ -281,7 +281,7 @@ export const PrivacyPage: React.FC = () => {
             <select
               value={retentionDays}
               onChange={(e) => setRetentionDays(Number(e.target.value))}
-              className="px-3 py-2 bg-[#080d1a] border border-slate-700 rounded-xl text-xs text-white font-medium focus:outline-none focus:border-emerald-500"
+              className="px-3 py-2 bg-[#080d1a] border border-slate-700 rounded-xl text-xs text-white font-medium focus:outline-none focus:border-cyan-500"
             >
               <option value="90">Auto-delete video after 90 days (Recommended)</option>
               <option value="30">Auto-delete video after 30 days</option>
@@ -350,7 +350,7 @@ export const PrivacyPage: React.FC = () => {
       {/* Data Sovereignty & Portability (GDPR / CCPA) */}
       <div className="p-6 rounded-3xl bg-[#0f172a] border border-[#1e293b] flex flex-col gap-4">
         <h2 className="text-sm font-bold uppercase tracking-wider text-white flex items-center gap-2">
-          <Download className="w-4 h-4 text-emerald-400" />
+          <Download className="w-4 h-4 text-cyan-400" />
           <span>Data Portability & Export (GDPR)</span>
         </h2>
         <p className="text-xs text-slate-400 leading-relaxed">

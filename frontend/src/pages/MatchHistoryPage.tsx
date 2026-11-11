@@ -109,7 +109,7 @@ export const MatchHistoryPage: React.FC = () => {
             onClick={() => setFilterType(tab)}
             className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-colors ${
               filterType === tab
-                ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
+                ? 'bg-cyan-500/15 text-cyan-400 border border-cyan-500/30'
                 : 'text-slate-400 hover:text-white hover:bg-slate-900 border border-transparent'
             }`}
           >
@@ -120,7 +120,7 @@ export const MatchHistoryPage: React.FC = () => {
 
       {loading ? (
         <div className="flex flex-col items-center justify-center min-h-[50vh] gap-3">
-          <div className="w-10 h-10 border-4 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin" />
+          <div className="w-10 h-10 border-4 border-cyan-500/20 border-t-cyan-500 rounded-full animate-spin" />
           <span className="text-xs text-slate-400 font-medium">Loading match archives...</span>
         </div>
       ) : filtered.length === 0 ? (
@@ -138,7 +138,7 @@ export const MatchHistoryPage: React.FC = () => {
               <div
                 key={m.id}
                 className={`bg-[#0f172a] border rounded-2xl overflow-hidden transition-all flex flex-col justify-between ${
-                  isSelected ? 'border-emerald-500 ring-2 ring-emerald-500/30' : 'border-[#1e293b] hover:border-slate-700'
+                  isSelected ? 'border-cyan-500 ring-2 ring-cyan-500/30' : 'border-[#1e293b] hover:border-slate-700'
                 }`}
               >
                 {/* Thumbnail Header */}
@@ -169,7 +169,7 @@ export const MatchHistoryPage: React.FC = () => {
                       onClick={() => handleToggleCompare(m.id)}
                       className={`absolute top-2.5 left-2.5 px-2 py-1 rounded-lg text-[10px] font-bold backdrop-blur-md transition-colors ${
                         isSelected
-                          ? 'bg-emerald-500 text-slate-950'
+                          ? 'bg-cyan-500 text-slate-950'
                           : 'bg-black/60 text-slate-300 hover:bg-black/90'
                       }`}
                     >
@@ -190,7 +190,7 @@ export const MatchHistoryPage: React.FC = () => {
                   {m.analytics && (
                     <div className="grid grid-cols-3 gap-2 py-2 border-y border-slate-800 text-center text-xs">
                       <div>
-                        <div className="font-bold text-emerald-400">
+                        <div className="font-bold text-cyan-400">
                           {m.analytics.total_movement_distance_m.toFixed(0)}m
                         </div>
                         <div className="text-[10px] text-slate-400">Distance</div>

@@ -62,7 +62,7 @@ export const PdfReportsPage: React.FC = () => {
 
       {loading ? (
         <div className="flex flex-col items-center justify-center min-h-[50vh] gap-3">
-          <div className="w-10 h-10 border-4 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin" />
+          <div className="w-10 h-10 border-4 border-cyan-500/20 border-t-cyan-500 rounded-full animate-spin" />
           <span className="text-xs text-slate-400 font-medium">Loading report archives...</span>
         </div>
       ) : matches.length === 0 ? (
@@ -84,7 +84,7 @@ export const PdfReportsPage: React.FC = () => {
                 className="bg-[#0f172a] border border-[#1e293b] rounded-2xl p-5 shadow-xl flex flex-col justify-between gap-4 hover:border-slate-700 transition-colors"
               >
                 <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-500/20">
+                  <div className="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center shrink-0 border border-cyan-500/20">
                     <FileText className="w-5 h-5" />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -98,7 +98,7 @@ export const PdfReportsPage: React.FC = () => {
                 {m.analytics && (
                   <div className="p-3 rounded-xl bg-slate-900 text-xs font-mono text-slate-300 flex items-center justify-between">
                     <span>{m.analytics.total_movement_distance_m.toFixed(0)}m covered</span>
-                    <span className="text-emerald-400 font-bold">{m.analytics.total_shots} shots</span>
+                    <span className="text-cyan-400 font-bold">{m.analytics.total_shots} shots</span>
                   </div>
                 )}
 

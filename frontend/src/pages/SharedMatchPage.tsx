@@ -53,7 +53,7 @@ export const SharedMatchPage: React.FC = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-[#080d1a] flex flex-col items-center justify-center gap-3">
-        <div className="w-12 h-12 border-4 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin" />
+        <div className="w-12 h-12 border-4 border-cyan-500/20 border-t-cyan-500 rounded-full animate-spin" />
         <span className="text-xs text-slate-400 font-medium">Loading secure shared match analysis...</span>
       </div>
     );
@@ -87,10 +87,10 @@ export const SharedMatchPage: React.FC = () => {
   const tracks = match.movement_tracks || [];
 
   return (
-    <div className="min-h-screen bg-[#021a14] text-slate-100 flex flex-col">
+    <div className="min-h-screen bg-[#060913] text-slate-100 flex flex-col mesmerizing-shading">
       {/* Public Shared Banner */}
-      <div className="bg-[#052820] border-b border-emerald-500/30 px-4 py-2 text-center text-xs text-emerald-300 flex items-center justify-center gap-2">
-        <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+      <div className="bg-[#070e24] border-b border-cyan-500/30 px-4 py-2 text-center text-xs text-cyan-300 flex items-center justify-center gap-2">
+        <ShieldCheck className="w-4 h-4 text-cyan-400 shrink-0" />
         <span>
           <strong>Private Access Shared Link:</strong> Viewing match performance data authorized by{' '}
           <span className="text-white font-bold">{match.player_name}</span>.
@@ -100,15 +100,15 @@ export const SharedMatchPage: React.FC = () => {
       {/* Main Container */}
       <div className="max-w-6xl mx-auto w-full p-4 sm:p-8 flex flex-col gap-8 flex-1">
         {/* Match Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-3xl bg-[#052820] border border-emerald-500/25 shadow-xl">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-3xl glass-panel bg-[#091129]/90 border border-cyan-500/30 shadow-xl">
           <div>
             <div className="flex flex-wrap items-center gap-2 mb-2">
-              <Badge variant="lime">{match.match_type}</Badge>
+              <Badge variant="cyan">{match.match_type}</Badge>
               <span className="text-xs text-slate-400 flex items-center gap-1 font-mono">
                 <Calendar className="w-3.5 h-3.5" />
                 {new Date(match.match_date).toLocaleDateString()}
               </span>
-              <span className="text-xs text-emerald-400 font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+              <span className="text-xs text-amber-300 font-semibold px-2 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/20">
                 {analytics?.player_archetype || 'All-Round Dynamo 🏸'}
               </span>
             </div>
@@ -138,7 +138,7 @@ export const SharedMatchPage: React.FC = () => {
                 rel="noreferrer"
                 className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs text-white border border-slate-700 transition-colors font-medium shadow"
               >
-                <Download className="w-4 h-4 text-emerald-400" />
+                <Download className="w-4 h-4 text-cyan-400" />
                 <span>Download PDF Summary</span>
               </a>
             )}
@@ -190,7 +190,7 @@ export const SharedMatchPage: React.FC = () => {
           <div className="p-6 rounded-3xl bg-[#0f172a] border border-[#1e293b] flex flex-col gap-4 shadow-xl">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Activity className="w-4 h-4 text-emerald-400" />
+                <Activity className="w-4 h-4 text-cyan-400" />
                 <h3 className="text-sm font-bold uppercase tracking-wider text-white">
                   2D Tactical Court Projection
                 </h3>
@@ -198,7 +198,7 @@ export const SharedMatchPage: React.FC = () => {
               <span className="text-[11px] text-slate-400 font-mono">BWF 13.4m Court</span>
             </div>
             <p className="text-xs text-slate-400">
-              Player movement path (green trail) and detected shot hit events projected using homography transformation.
+              Player movement path (cyan tracking trail) and detected shot hit events projected using homography transformation.
             </p>
             <div className="flex justify-center p-2 bg-slate-950/60 rounded-2xl border border-slate-800">
               <TacticalCourtView
@@ -233,7 +233,7 @@ export const SharedMatchPage: React.FC = () => {
             {analytics?.shot_distribution && (
               <div className="p-6 rounded-3xl bg-[#0f172a] border border-[#1e293b] flex flex-col gap-3 shadow-xl">
                 <h3 className="text-sm font-bold uppercase tracking-wider text-white flex items-center gap-2">
-                  <Zap className="w-4 h-4 text-emerald-400" />
+                  <Zap className="w-4 h-4 text-cyan-400" />
                   <span>Detected Shot Breakdown ({analytics.total_shots} Shots)</span>
                 </h3>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 pt-1">
@@ -243,7 +243,7 @@ export const SharedMatchPage: React.FC = () => {
                       className="p-3 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between text-xs"
                     >
                       <span className="text-slate-300 font-medium">{shot.replace('_', ' ')}</span>
-                      <span className="font-mono font-bold text-emerald-400">{count}</span>
+                      <span className="font-mono font-bold text-cyan-400">{count}</span>
                     </div>
                   ))}
                 </div>

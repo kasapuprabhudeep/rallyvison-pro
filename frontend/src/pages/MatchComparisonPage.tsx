@@ -87,7 +87,7 @@ export const MatchComparisonPage: React.FC = () => {
           <select
             value={selectedA}
             onChange={(e) => setSelectedA(Number(e.target.value))}
-            className="w-full px-3.5 py-2.5 bg-[#080d1a] border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-emerald-500"
+            className="w-full px-3.5 py-2.5 bg-[#080d1a] border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-cyan-500"
           >
             {matches.map(m => (
               <option key={m.id} value={m.id}>
@@ -104,7 +104,7 @@ export const MatchComparisonPage: React.FC = () => {
           <select
             value={selectedB}
             onChange={(e) => setSelectedB(Number(e.target.value))}
-            className="w-full px-3.5 py-2.5 bg-[#080d1a] border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-emerald-500"
+            className="w-full px-3.5 py-2.5 bg-[#080d1a] border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-cyan-500"
           >
             {matches.map(m => (
               <option key={m.id} value={m.id} disabled={m.id === selectedA}>
@@ -124,7 +124,7 @@ export const MatchComparisonPage: React.FC = () => {
 
       {loading ? (
         <div className="flex flex-col items-center justify-center min-h-[40vh] gap-3">
-          <div className="w-10 h-10 border-4 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin" />
+          <div className="w-10 h-10 border-4 border-cyan-500/20 border-t-cyan-500 rounded-full animate-spin" />
           <span className="text-xs text-slate-400 font-medium">Computing deltas and progression trends...</span>
         </div>
       ) : compareData ? (
@@ -140,7 +140,7 @@ export const MatchComparisonPage: React.FC = () => {
                   {compareData.deltas.distance_m > 0 ? `+${compareData.deltas.distance_m}` : compareData.deltas.distance_m}m
                 </span>
                 {compareData.deltas.distance_m > 0 ? (
-                  <TrendingUp className="w-4 h-4 text-emerald-400" />
+                  <TrendingUp className="w-4 h-4 text-cyan-400" />
                 ) : (
                   <TrendingDown className="w-4 h-4 text-slate-400" />
                 )}
@@ -157,7 +157,7 @@ export const MatchComparisonPage: React.FC = () => {
                   {compareData.deltas.speed_kmh > 0 ? `+${compareData.deltas.speed_kmh}` : compareData.deltas.speed_kmh} km/h
                 </span>
                 {compareData.deltas.speed_kmh > 0 ? (
-                  <TrendingUp className="w-4 h-4 text-emerald-400" />
+                  <TrendingUp className="w-4 h-4 text-cyan-400" />
                 ) : (
                   <TrendingDown className="w-4 h-4 text-slate-400" />
                 )}
@@ -174,7 +174,7 @@ export const MatchComparisonPage: React.FC = () => {
                   {compareData.deltas.base_recovery_percent > 0 ? `+${compareData.deltas.base_recovery_percent}` : compareData.deltas.base_recovery_percent}%
                 </span>
                 {compareData.deltas.base_recovery_percent > 0 ? (
-                  <TrendingUp className="w-4 h-4 text-emerald-400" />
+                  <TrendingUp className="w-4 h-4 text-cyan-400" />
                 ) : (
                   <TrendingDown className="w-4 h-4 text-slate-400" />
                 )}
@@ -204,7 +204,7 @@ export const MatchComparisonPage: React.FC = () => {
               <thead className="bg-slate-900 border-b border-slate-800 text-slate-400 uppercase tracking-wider text-[11px]">
                 <tr>
                   <th className="py-3 px-4">Performance Metric</th>
-                  <th className="py-3 px-4 text-emerald-400 font-bold">{compareData.match_a.title}</th>
+                  <th className="py-3 px-4 text-amber-400 font-bold">{compareData.match_a.title}</th>
                   <th className="py-3 px-4 text-cyan-400 font-bold">{compareData.match_b.title}</th>
                   <th className="py-3 px-4">Delta Variation</th>
                 </tr>
@@ -214,7 +214,7 @@ export const MatchComparisonPage: React.FC = () => {
                   <td className="py-3.5 px-4 font-semibold text-white">Movement Distance</td>
                   <td className="py-3.5 px-4 font-mono">{compareData.match_a.analytics.total_movement_distance_m.toFixed(1)} m</td>
                   <td className="py-3.5 px-4 font-mono">{compareData.match_b.analytics.total_movement_distance_m.toFixed(1)} m</td>
-                  <td className="py-3.5 px-4 font-mono font-bold text-emerald-400">{compareData.deltas.distance_m} m</td>
+                  <td className="py-3.5 px-4 font-mono font-bold text-cyan-400">{compareData.deltas.distance_m} m</td>
                 </tr>
                 <tr>
                   <td className="py-3.5 px-4 font-semibold text-white">Average Speed</td>

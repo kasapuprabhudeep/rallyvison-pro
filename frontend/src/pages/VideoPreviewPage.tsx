@@ -32,7 +32,7 @@ export const VideoPreviewPage: React.FC = () => {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-3">
-        <div className="w-10 h-10 border-4 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin" />
+        <div className="w-10 h-10 border-4 border-cyan-500/20 border-t-cyan-500 rounded-full animate-spin" />
         <span className="text-xs text-slate-400 font-medium">Loading video stream...</span>
       </div>
     );
@@ -53,7 +53,7 @@ export const VideoPreviewPage: React.FC = () => {
     <div className="max-w-4xl mx-auto flex flex-col gap-6">
       <div>
         <div className="flex items-center gap-2 text-xs text-slate-400 mb-1">
-          <Link to={`/matches/${match.id}/analysis`} className="hover:text-emerald-400 transition-colors">
+          <Link to={`/matches/${match.id}/analysis`} className="hover:text-cyan-400 transition-colors">
             Analysis Hub
           </Link>
           <ChevronRight className="w-3.5 h-3.5 text-slate-600" />

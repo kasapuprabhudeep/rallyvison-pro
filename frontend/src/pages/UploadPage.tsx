@@ -130,7 +130,7 @@ export const UploadPage: React.FC = () => {
 
       {/* Header */}
       <div>
-        <div className="flex items-center gap-2 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-1">
+        <div className="flex items-center gap-2 text-cyan-400 text-xs font-bold uppercase tracking-wider mb-1">
           <Zap className="w-4 h-4" />
           <span>Automated Video Analysis</span>
         </div>
@@ -242,7 +242,7 @@ export const UploadPage: React.FC = () => {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
             <div>
               <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse" />
                 <h3 className="text-base font-extrabold text-white">Video Ready for Submission</h3>
               </div>
               <p className="text-xs text-slate-400 mt-0.5">
@@ -339,7 +339,7 @@ export const UploadPage: React.FC = () => {
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     placeholder="e.g. Club Weekend Singles"
-                    className="w-full px-3.5 py-2 bg-[#080d1a] border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-emerald-500"
+                    className="w-full px-3.5 py-2 bg-[#080d1a] border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500"
                   />
                 </div>
 
@@ -350,7 +350,7 @@ export const UploadPage: React.FC = () => {
                   <select
                     value={matchType}
                     onChange={(e) => setMatchType(e.target.value as any)}
-                    className="w-full px-3 py-2 bg-[#080d1a] border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-emerald-500"
+                    className="w-full px-3 py-2 bg-[#080d1a] border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500"
                   >
                     <option value="SINGLES">Singles (5.18m Court)</option>
                     <option value="DOUBLES">Doubles (6.10m Court)</option>
@@ -364,7 +364,7 @@ export const UploadPage: React.FC = () => {
                   <select
                     value={playerPosition}
                     onChange={(e) => setPlayerPosition(e.target.value)}
-                    className="w-full px-3 py-2 bg-[#080d1a] border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-emerald-500"
+                    className="w-full px-3 py-2 bg-[#080d1a] border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500"
                   >
                     <option value="NEAR_COURT">Near Court (Closer to Camera)</option>
                     <option value="FAR_COURT">Far Court (Opposite side)</option>
@@ -380,7 +380,7 @@ export const UploadPage: React.FC = () => {
                     value={opponentName}
                     onChange={(e) => setOpponentName(e.target.value)}
                     placeholder="e.g. Viktor"
-                    className="w-full px-3.5 py-2 bg-[#080d1a] border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-emerald-500"
+                    className="w-full px-3.5 py-2 bg-[#080d1a] border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500"
                   />
                 </div>
 
@@ -392,7 +392,7 @@ export const UploadPage: React.FC = () => {
                     type="date"
                     value={matchDate}
                     onChange={(e) => setMatchDate(e.target.value)}
-                    className="w-full px-3.5 py-2 bg-[#080d1a] border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-emerald-500"
+                    className="w-full px-3.5 py-2 bg-[#080d1a] border border-slate-700 rounded-xl text-xs text-white focus:outline-none focus:border-cyan-500"
                   />
                 </div>
               </div>

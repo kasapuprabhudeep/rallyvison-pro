@@ -101,12 +101,12 @@ export const VideoPlayerOverlay: React.FC<VideoPlayerOverlayProps> = ({
 
         {/* Dynamic HUD Overlays */}
         {activeShot && (
-          <div className="absolute top-4 left-4 bg-slate-900/90 border border-emerald-500/50 backdrop-blur-md px-3.5 py-1.5 rounded-xl shadow-lg flex items-center gap-2 animate-bounce">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
+          <div className="absolute top-4 left-4 bg-slate-900/90 border border-cyan-500/50 backdrop-blur-md px-3.5 py-1.5 rounded-xl shadow-lg flex items-center gap-2 animate-bounce">
+            <span className="w-2.5 h-2.5 rounded-full bg-cyan-400" />
             <span className="text-xs font-bold text-white uppercase tracking-wider">
               {activeShot.shot_type}
             </span>
-            <span className="text-[10px] text-emerald-400 font-mono">
+            <span className="text-[10px] text-cyan-400 font-mono">
               ({(activeShot.confidence * 100).toFixed(0)}% conf)
             </span>
           </div>
@@ -114,7 +114,7 @@ export const VideoPlayerOverlay: React.FC<VideoPlayerOverlayProps> = ({
 
         {activeTrack && (
           <div className="absolute bottom-4 left-4 bg-slate-900/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-slate-700 text-xs text-slate-300 font-mono flex items-center gap-3">
-            <span>Speed: <strong className="text-emerald-400">{activeTrack.speed_kmh} km/h</strong></span>
+            <span>Speed: <strong className="text-cyan-400">{activeTrack.speed_kmh} km/h</strong></span>
             <span>Zone: <strong className="text-cyan-400">{activeTrack.zone}</strong></span>
           </div>
         )}
@@ -123,7 +123,7 @@ export const VideoPlayerOverlay: React.FC<VideoPlayerOverlayProps> = ({
         {!isPlaying && (
           <button
             onClick={togglePlay}
-            className="absolute inset-0 m-auto w-16 h-16 rounded-full bg-emerald-500/90 hover:bg-emerald-400 text-slate-950 flex items-center justify-center shadow-2xl transition-transform hover:scale-110 active:scale-95"
+            className="absolute inset-0 m-auto w-16 h-16 rounded-full bg-cyan-500/90 hover:bg-cyan-400 text-slate-950 flex items-center justify-center shadow-2xl transition-transform hover:scale-110 active:scale-95"
           >
             <Play className="w-8 h-8 fill-current translate-x-0.5" />
           </button>
@@ -141,7 +141,7 @@ export const VideoPlayerOverlay: React.FC<VideoPlayerOverlayProps> = ({
             step="0.05"
             value={currentTime}
             onChange={handleSeek}
-            className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-emerald-500"
+            className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-500"
           />
         </div>
 
@@ -185,7 +185,7 @@ export const VideoPlayerOverlay: React.FC<VideoPlayerOverlayProps> = ({
                   key={rate}
                   onClick={() => setSpeed(rate)}
                   className={`px-1.5 py-0.5 rounded text-[10px] font-semibold transition-colors ${
-                    playbackRate === rate ? 'bg-emerald-500 text-slate-950' : 'text-slate-400 hover:text-white'
+                    playbackRate === rate ? 'bg-cyan-500 text-slate-950' : 'text-slate-400 hover:text-white'
                   }`}
                 >
                   {rate}x

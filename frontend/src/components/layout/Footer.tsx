@@ -37,8 +37,8 @@ export const Footer: React.FC = () => {
                 <ShieldCheck className="w-3.5 h-3.5 text-cyan-400" />
                 256-Bit Telemetry Encryption
               </span>
-              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#0a122c] border border-emerald-500/30 text-emerald-300">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#0a122c] border border-cyan-500/30 text-cyan-300">
+                <ShieldCheck className="w-3.5 h-3.5 text-cyan-400" />
                 Antivirus Sentinel: Active (Auto-Purge)
               </span>
               <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#0a122c] border border-cyan-500/25">

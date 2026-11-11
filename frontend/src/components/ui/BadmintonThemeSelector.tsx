@@ -10,11 +10,11 @@ export const BadmintonThemeSelector: React.FC<{ compact?: boolean }> = ({ compac
   const themes: { id: BadmintonTheme; name: string; tag: string; courtColor: string; accentColor: string; description: string }[] = [
     {
       id: 'emerald',
-      name: 'Midnight Cobalt & Cyan',
-      tag: 'Grand Prix Tournament',
-      courtColor: '#0a1738',
-      accentColor: '#00f0ff',
-      description: 'Mesmerizing midnight cobalt with electric cyan spotlights and shuttlecock gold accents.'
+      name: 'BWF Arena (Natural Slate & Gold)',
+      tag: 'Natural Tournament',
+      courtColor: '#0a142e',
+      accentColor: '#f59e0b',
+      description: 'Natural tournament arena slate with warm court gold and crisp white boundaries.'
     },
     {
       id: 'cyber',

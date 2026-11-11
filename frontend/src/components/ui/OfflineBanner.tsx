@@ -38,7 +38,7 @@ export const OfflineBanner: React.FC = () => {
 
   if (showReconnected) {
     return (
-      <div className="fixed top-0 left-0 right-0 z-50 bg-emerald-600/95 text-white px-4 py-2 text-xs font-bold flex items-center justify-center gap-2 shadow-lg backdrop-blur-md animate-in slide-in-from-top duration-300">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-cyan-600/95 text-white px-4 py-2 text-xs font-bold flex items-center justify-center gap-2 shadow-lg backdrop-blur-md animate-in slide-in-from-top duration-300">
         <Wifi className="w-4 h-4 shrink-0" />
         <span>Connection Restored — Live optical sync active.</span>
       </div>

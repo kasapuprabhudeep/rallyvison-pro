@@ -11,16 +11,16 @@ interface ThemeContextType {
 
 const THEME_DETAILS: Record<BadmintonTheme, { name: string; description: string }> = {
   emerald: {
-    name: 'Midnight Cobalt & Cyan',
-    description: 'Mesmerizing tournament midnight cobalt with electric cyan spotlights'
+    name: 'BWF Arena (Natural Slate & Gold)',
+    description: 'Natural tournament arena slate with warm court gold and crisp white boundaries.'
   },
   cyber: {
-    name: 'Cyber Hawk-Eye Laser',
-    description: 'High-contrast neon cyan & indigo laser telemetry'
+    name: 'Hawk-Eye Telemetry (Classic Navy)',
+    description: 'High-contrast natural stadium navy with electric sky blue tracking paths.'
   },
   arena: {
-    name: 'Tokyo Championship Gold',
-    description: 'Olympic stadium navy with championship gold crest'
+    name: 'Championship Court (Deep Cobalt)',
+    description: 'International arena deep cobalt with warm gold accents and clear court lines.'
   }
 };
 

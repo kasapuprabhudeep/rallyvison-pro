@@ -8,11 +8,11 @@ interface BadgeProps {
 
 export const Badge: React.FC<BadgeProps> = ({
   children,
-  variant = 'lime',
+  variant = 'cyan',
   size = 'md'
 }) => {
   const variantStyles = {
-    lime: 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30',
+    lime: 'bg-amber-500/15 text-amber-300 border border-amber-500/30',
     cyan: 'bg-cyan-500/15 text-cyan-400 border border-cyan-500/30',
     amber: 'bg-amber-500/15 text-amber-400 border border-amber-500/30',
     rose: 'bg-rose-500/15 text-rose-400 border border-rose-500/30',

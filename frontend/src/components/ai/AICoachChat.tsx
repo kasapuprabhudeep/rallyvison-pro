@@ -273,8 +273,8 @@ export const AICoachChat: React.FC<AICoachChatProps> = ({
             <Database className="w-3 h-3 text-cyan-400" />
             Backend Stored
           </span>
-          <span className="flex items-center gap-1 px-2.5 py-1 rounded-xl bg-emerald-950/60 border border-emerald-500/30 text-[10px] text-emerald-300 font-medium">
-            <Shield className="w-3 h-3 text-emerald-400" />
+          <span className="flex items-center gap-1 px-2.5 py-1 rounded-xl bg-cyan-950/60 border border-cyan-500/30 text-[10px] text-cyan-300 font-medium">
+            <Shield className="w-3 h-3 text-cyan-400" />
             Isolated Session
           </span>
           <button

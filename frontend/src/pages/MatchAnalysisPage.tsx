@@ -157,7 +157,7 @@ export const MatchAnalysisPage: React.FC = () => {
               <CrossedRacketsLogoIcon className="w-6 h-6" glow={false} />
               <span>{match.title}</span>
             </h1>
-            <Badge variant="lime">{match.match_type}</Badge>
+            <Badge variant="cyan">{match.match_type}</Badge>
             <Badge variant="outline">{match.player_position.replace('_', ' ')}</Badge>
           </div>
           <p className="text-xs text-slate-300 mt-1">
@@ -222,9 +222,9 @@ export const MatchAnalysisPage: React.FC = () => {
         </Link>
         <button
           onClick={() => document.getElementById('ai-coach-section')?.scrollIntoView({ behavior: 'smooth' })}
-          className="px-4 py-2 rounded-xl text-xs font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 hover:bg-emerald-500/20 transition-colors flex items-center gap-1.5 whitespace-nowrap"
+          className="px-4 py-2 rounded-xl text-xs font-semibold text-cyan-300 bg-cyan-500/15 border border-cyan-500/35 hover:bg-cyan-500/25 transition-colors flex items-center gap-1.5 whitespace-nowrap"
         >
-          <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+          <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
           <span>Ask RallyCoach AI</span>
         </button>
       </div>
@@ -438,15 +438,15 @@ export const MatchAnalysisPage: React.FC = () => {
           </div>
 
           {/* Scenario 2: Forecourt Net Tape */}
-          <div className="p-4 rounded-2xl bg-[#05091a] border border-emerald-500/30 flex flex-col justify-between">
+          <div className="p-4 rounded-2xl bg-[#05091a] border border-sky-500/30 flex flex-col justify-between">
             <div>
-              <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider block mb-1">
+              <span className="text-[10px] font-bold text-sky-400 uppercase tracking-wider block mb-1">
                 Forecourt Net Tape
               </span>
               <h4 className="text-sm font-black text-white mb-1">Spinning Net Tumbler (52%)</h4>
               <p className="text-[11px] text-slate-400 mb-2">Alt: Cross Net Flick (34%)</p>
               <div className="p-2 rounded-xl bg-slate-900/80 border border-slate-800 text-[11px] text-slate-300 mb-2">
-                <span className="text-emerald-300 font-semibold block">Opponent Predicted Reply:</span>
+                <span className="text-sky-300 font-semibold block">Opponent Predicted Reply:</span>
                 Defensive high lift (74%)
               </div>
             </div>

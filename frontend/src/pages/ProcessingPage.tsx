@@ -103,16 +103,16 @@ export const ProcessingPage: React.FC = () => {
                 key={i}
                 className={`flex items-center gap-2.5 text-xs transition-colors ${
                   isDone
-                    ? 'text-emerald-400 font-medium'
+                    ? 'text-cyan-400 font-medium'
                     : isCurrent
                     ? 'text-white font-bold'
                     : 'text-slate-500'
                 }`}
               >
                 {isDone ? (
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0" />
                 ) : isCurrent ? (
-                  <div className="w-4 h-4 rounded-full border-2 border-emerald-400 border-t-transparent animate-spin shrink-0" />
+                  <div className="w-4 h-4 rounded-full border-2 border-cyan-400 border-t-transparent animate-spin shrink-0" />
                 ) : (
                   <div className="w-4 h-4 rounded-full border border-slate-700 shrink-0" />
                 )}

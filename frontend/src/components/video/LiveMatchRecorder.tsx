@@ -210,13 +210,13 @@ export const LiveMatchRecorder: React.FC<LiveMatchRecorderProps> = ({ onClose })
       {/* Top Header */}
       <div className="flex items-center justify-between pb-3 border-b border-slate-800">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/30">
+          <div className="w-8 h-8 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center border border-cyan-500/30">
             <Camera className="w-4 h-4" />
           </div>
           <div>
             <h3 className="font-extrabold text-white text-sm sm:text-base flex items-center gap-2">
               <span>Live Court Camera & Instant Optical Analysis</span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hidden sm:inline-block">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 hidden sm:inline-block">
                 Auto-Analyze
               </span>
             </h3>
@@ -283,7 +283,7 @@ export const LiveMatchRecorder: React.FC<LiveMatchRecorderProps> = ({ onClose })
         {/* Setup Guide Overlay for Players */}
         {!isRecording && !processing && (
           <div className="absolute bottom-4 inset-x-4 max-w-lg mx-auto bg-slate-900/90 backdrop-blur-md p-4 rounded-2xl border border-slate-700/80 text-center text-xs text-slate-200 shadow-2xl">
-            <span className="text-emerald-400 font-bold block text-sm mb-1">
+            <span className="text-amber-400 font-bold block text-sm mb-1">
               🏸 Step 1: Position Camera & Step 2: Play!
             </span>
             <span>
@@ -295,7 +295,7 @@ export const LiveMatchRecorder: React.FC<LiveMatchRecorderProps> = ({ onClose })
         {/* Loading Spinner & Progress Overlay */}
         {processing && (
           <div className="absolute inset-0 bg-slate-950/95 backdrop-blur-md flex flex-col items-center justify-center p-6 gap-4 z-20">
-            <div className="w-14 h-14 border-4 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin shadow-xl" />
+            <div className="w-14 h-14 border-4 border-cyan-500/20 border-t-cyan-500 rounded-full animate-spin shadow-xl" />
             <div className="text-center">
               <h4 className="text-base font-bold text-white mb-1">{processingStatus}</h4>
               <p className="text-xs text-slate-400">Everything is automated — court calibration, player tracking, and shots.</p>
@@ -303,13 +303,13 @@ export const LiveMatchRecorder: React.FC<LiveMatchRecorderProps> = ({ onClose })
 
             {uploadPercent !== null && (
               <div className="w-full max-w-xs flex flex-col gap-1.5 mt-2">
-                <div className="flex justify-between text-xs font-mono text-emerald-400">
+                <div className="flex justify-between text-xs font-mono text-cyan-400">
                   <span>Uploading video</span>
                   <span>{uploadPercent}%</span>
                 </div>
                 <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-emerald-400 transition-all duration-200"
+                    className="h-full bg-cyan-400 transition-all duration-200"
                     style={{ width: `${uploadPercent}%` }}
                   />
                 </div>
@@ -335,7 +335,7 @@ export const LiveMatchRecorder: React.FC<LiveMatchRecorderProps> = ({ onClose })
             size="lg"
             icon={Square}
             onClick={stopRecordingAndAnalyze}
-            className="w-full max-w-md py-4 bg-emerald-500 hover:bg-emerald-400 text-slate-950 shadow-xl shadow-emerald-500/30 font-black text-base animate-pulse"
+            className="w-full max-w-md py-4 bg-cyan-500 hover:bg-cyan-400 text-slate-950 shadow-xl shadow-cyan-500/30 font-black text-base animate-pulse"
           >
             ⏹ Submit & Auto-Analyze Everything ({formatTimer(elapsedSeconds)})
           </Button>

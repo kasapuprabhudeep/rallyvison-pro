@@ -78,8 +78,8 @@ export const PerformanceInsightsPage: React.FC = () => {
       </div>
 
       {/* Disclaimers & Integrity Header Card */}
-      <div className="p-5 rounded-2xl bg-gradient-to-r from-[#0d1627] to-[#0f1f20] border border-emerald-500/20 flex items-start gap-3">
-        <ShieldCheck className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+      <div className="p-5 rounded-2xl glass-panel bg-gradient-to-r from-[#0d1627] to-[#0a1638] border border-cyan-500/20 flex items-start gap-3">
+        <ShieldCheck className="w-5 h-5 text-cyan-400 shrink-0 mt-0.5" />
         <div>
           <h4 className="text-sm font-bold text-white">Empirical Evidence Grounding</h4>
           <p className="text-xs text-slate-400 mt-1 leading-relaxed">
@@ -97,7 +97,7 @@ export const PerformanceInsightsPage: React.FC = () => {
           >
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
               <div className="flex items-center gap-2.5">
-                <span className="px-2.5 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-[11px] font-bold">
+                <span className="px-2.5 py-1 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 font-mono text-[11px] font-bold">
                   {rec.category}
                 </span>
                 <h3 className="text-base font-bold text-white">{rec.title}</h3>
@@ -114,14 +114,14 @@ export const PerformanceInsightsPage: React.FC = () => {
                 </span>
                 <p className="text-slate-300 leading-relaxed">{rec.observation}</p>
                 {rec.grounded_metric && (
-                  <div className="mt-3 pt-2 border-t border-slate-800 text-[10px] font-mono text-emerald-400">
+                  <div className="mt-3 pt-2 border-t border-slate-800 text-[10px] font-mono text-cyan-400">
                     {rec.grounded_metric}
                   </div>
                 )}
               </div>
 
-              <div className="p-4 rounded-xl bg-emerald-500/5 border border-emerald-500/20">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-400 block mb-1">
+              <div className="p-4 rounded-xl bg-cyan-500/5 border border-cyan-500/20">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-amber-300 block mb-1">
                   Target Training Drill & Tactical Remedy
                 </span>
                 <p className="text-white leading-relaxed font-medium">{rec.recommendation}</p>

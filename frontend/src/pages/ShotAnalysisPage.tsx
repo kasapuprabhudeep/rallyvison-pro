@@ -81,7 +81,7 @@ export const ShotAnalysisPage: React.FC = () => {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-3">
-        <div className="w-10 h-10 border-4 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin" />
+        <div className="w-10 h-10 border-4 border-cyan-500/20 border-t-cyan-500 rounded-full animate-spin" />
         <span className="text-xs text-slate-400 font-medium">Categorizing shot telemetry...</span>
       </div>
     );
@@ -114,7 +114,7 @@ export const ShotAnalysisPage: React.FC = () => {
       {/* Breadcrumb Header */}
       <div>
         <div className="flex items-center gap-2 text-xs text-slate-400 mb-1">
-          <Link to={`/matches/${match.id}/analysis`} className="hover:text-emerald-400 transition-colors">
+          <Link to={`/matches/${match.id}/analysis`} className="hover:text-cyan-400 transition-colors">
             Analysis Hub
           </Link>
           <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
@@ -195,7 +195,7 @@ export const ShotAnalysisPage: React.FC = () => {
               Incorrectly classified shot? Click the edit button to correct any event.
             </p>
           </div>
-          <span className="text-xs text-emerald-400 font-mono">
+          <span className="text-xs text-cyan-400 font-mono">
             {results?.shots.filter(s => s.is_user_corrected).length} user verified
           </span>
         </div>
@@ -226,7 +226,7 @@ export const ShotAnalysisPage: React.FC = () => {
                         <select
                           value={selectedShotType}
                           onChange={(e) => setSelectedShotType(e.target.value as ShotType)}
-                          className="px-2 py-1 bg-slate-900 border border-emerald-500 rounded-lg text-xs text-white"
+                          className="px-2 py-1 bg-slate-900 border border-cyan-500 rounded-lg text-xs text-white"
                         >
                           {availableShotTypes.map(st => (
                             <option key={st} value={st}>{st}</option>
@@ -252,7 +252,7 @@ export const ShotAnalysisPage: React.FC = () => {
                               : shot.shot_type === 'DROP'
                               ? 'amber'
                               : shot.shot_type === 'NET_SHOT'
-                              ? 'lime'
+                              ? 'cyan'
                               : 'slate'
                           }
                           size="sm"
@@ -260,7 +260,7 @@ export const ShotAnalysisPage: React.FC = () => {
                           {shot.shot_type}
                         </Badge>
                         {shot.is_user_corrected && (
-                          <span className="text-[10px] text-emerald-400 font-bold" title="Manually Verified">
+                          <span className="text-[10px] text-cyan-400 font-bold" title="Manually Verified">
                             ✓ Verified
                           </span>
                         )}
@@ -268,7 +268,7 @@ export const ShotAnalysisPage: React.FC = () => {
                     )}
                   </td>
                   <td className="py-3 px-4 font-mono">
-                    <span className={shot.confidence >= 0.8 ? 'text-emerald-400' : 'text-amber-400'}>
+                    <span className={shot.confidence >= 0.8 ? 'text-cyan-400' : 'text-amber-400'}>
                       {(shot.confidence * 100).toFixed(0)}%
                     </span>
                   </td>
@@ -287,7 +287,7 @@ export const ShotAnalysisPage: React.FC = () => {
                           setEditingShotId(shot.id);
                           setSelectedShotType(shot.shot_type);
                         }}
-                        className="p-1 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-emerald-400 transition-colors"
+                        className="p-1 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-cyan-400 transition-colors"
                         title="Correct shot classification"
                       >
                         <Edit2 className="w-3.5 h-3.5" />

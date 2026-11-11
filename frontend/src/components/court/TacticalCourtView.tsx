@@ -156,7 +156,7 @@ export const TacticalCourtView: React.FC<TacticalCourtViewProps> = ({
       case 'SMASH': return '#ef4444'; // Red
       case 'CLEAR': return '#38bdf8'; // Sky Blue
       case 'DROP': return '#f59e0b'; // Amber Gold
-      case 'NET_SHOT': return '#10b981'; // Emerald Green
+      case 'NET_SHOT': return '#14b8a6'; // Tournament Teal
       case 'DRIVE': return '#a855f7'; // Purple
       case 'LIFT': return '#06b6d4'; // Cyan
       default: return '#94a3b8';
@@ -597,7 +597,7 @@ export const TacticalCourtView: React.FC<TacticalCourtViewProps> = ({
           Clear
         </span>
         <span className="inline-flex items-center gap-1">
-          <span className="w-2 h-2 rounded-full bg-emerald-400" />
+          <span className="w-2 h-2 rounded-full bg-teal-400" />
           Net Shot
         </span>
         <span className="inline-flex items-center gap-1">

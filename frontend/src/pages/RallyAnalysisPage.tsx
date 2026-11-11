@@ -57,7 +57,7 @@ export const RallyAnalysisPage: React.FC = () => {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-3">
-        <div className="w-10 h-10 border-4 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin" />
+        <div className="w-10 h-10 border-4 border-cyan-500/20 border-t-cyan-500 rounded-full animate-spin" />
         <span className="text-xs text-slate-400 font-medium">Segmenting rally durations...</span>
       </div>
     );
@@ -79,7 +79,7 @@ export const RallyAnalysisPage: React.FC = () => {
       {/* Header Breadcrumb */}
       <div>
         <div className="flex items-center gap-2 text-xs text-slate-400 mb-1">
-          <Link to={`/matches/${match.id}/analysis`} className="hover:text-emerald-400 transition-colors">
+          <Link to={`/matches/${match.id}/analysis`} className="hover:text-cyan-400 transition-colors">
             Analysis Hub
           </Link>
           <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
@@ -142,14 +142,14 @@ export const RallyAnalysisPage: React.FC = () => {
                 <span className="font-bold text-white text-sm">
                   Rally #{rally.rally_number}
                 </span>
-                <Badge variant={rally.is_verified ? 'lime' : 'slate'} size="sm">
+                <Badge variant={rally.is_verified ? 'cyan' : 'slate'} size="sm">
                   {rally.is_verified ? 'Verified' : 'Auto-Detected'}
                 </Badge>
               </div>
 
               <div className="flex items-baseline justify-between text-xs font-mono py-1 border-y border-slate-800">
                 <span className="text-slate-400">Duration:</span>
-                <span className="text-emerald-400 font-bold text-sm">
+                <span className="text-cyan-400 font-bold text-sm">
                   {rally.duration_seconds.toFixed(1)}s
                 </span>
               </div>

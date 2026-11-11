@@ -109,7 +109,7 @@ export const CourtCalibrationPage: React.FC = () => {
       {/* Page Title */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-emerald-400 text-xs font-semibold mb-1">
+          <div className="flex items-center gap-2 text-cyan-400 text-xs font-semibold mb-1">
             <Compass className="w-4 h-4" />
             <span>Stage 4: Perspective Calibration</span>
           </div>
@@ -151,7 +151,7 @@ export const CourtCalibrationPage: React.FC = () => {
       {/* Verification Notice Card */}
       <div className="p-5 rounded-2xl bg-[#0f172a] border border-[#1e293b] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-start gap-3">
-          <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shrink-0">
+          <div className="p-2 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 shrink-0">
             <ShieldCheck className="w-5 h-5" />
           </div>
           <div>

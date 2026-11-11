@@ -111,7 +111,7 @@ export const UserProfilePage: React.FC = () => {
       </div>
 
       {success && (
-        <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs flex items-center gap-2">
+        <div className="p-4 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs flex items-center gap-2">
           <CheckCircle2 className="w-4 h-4 shrink-0" />
           <span>Profile updated successfully.</span>
         </div>
@@ -127,18 +127,18 @@ export const UserProfilePage: React.FC = () => {
       {/* Account Info Card */}
       <div className="bg-[#0f172a] border border-[#1e293b] rounded-3xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
-          <div className="w-16 h-16 rounded-2xl bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 font-extrabold text-2xl flex items-center justify-center shadow-inner">
+          <div className="w-16 h-16 rounded-2xl bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 font-extrabold text-2xl flex items-center justify-center shadow-inner">
             {user?.full_name ? user.full_name[0].toUpperCase() : 'U'}
           </div>
           <div>
             <h2 className="text-lg font-bold text-white">{user?.full_name}</h2>
             <p className="text-xs text-slate-400">{user?.email}</p>
             <div className="mt-2 flex items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-slate-800 text-[11px] font-mono text-emerald-400 border border-slate-700">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-slate-800 text-[11px] font-mono text-cyan-400 border border-slate-700">
                 <Shield className="w-3 h-3" />
                 <span>Role: {user?.role}</span>
               </span>
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-950/60 text-[11px] font-mono text-emerald-400 border border-emerald-500/30">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-cyan-950/60 text-[11px] font-mono text-cyan-400 border border-cyan-500/30">
                 <ShieldCheck className="w-3 h-3" />
                 <span>Private by Default</span>
               </span>
@@ -150,7 +150,7 @@ export const UserProfilePage: React.FC = () => {
           to="/privacy"
           className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700 text-xs text-slate-200 transition-colors"
         >
-          <EyeOff className="w-3.5 h-3.5 text-emerald-400" />
+          <EyeOff className="w-3.5 h-3.5 text-cyan-400" />
           <span>Privacy Settings</span>
           <ArrowRight className="w-3 h-3 text-slate-400" />
         </Link>
@@ -170,7 +170,7 @@ export const UserProfilePage: React.FC = () => {
             <select
               value={dominantHand}
               onChange={(e) => setDominantHand(e.target.value)}
-              className="w-full px-3.5 py-2.5 bg-[#080d1a] border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-emerald-500"
+              className="w-full px-3.5 py-2.5 bg-[#080d1a] border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-cyan-500"
             >
               <option value="RIGHT">Right-Handed</option>
               <option value="LEFT">Left-Handed</option>
@@ -184,7 +184,7 @@ export const UserProfilePage: React.FC = () => {
             <select
               value={playLevel}
               onChange={(e) => setPlayLevel(e.target.value)}
-              className="w-full px-3.5 py-2.5 bg-[#080d1a] border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-emerald-500"
+              className="w-full px-3.5 py-2.5 bg-[#080d1a] border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-cyan-500"
             >
               <option value="BEGINNER">Beginner / Recreational</option>
               <option value="INTERMEDIATE">Intermediate Club Player</option>
@@ -200,7 +200,7 @@ export const UserProfilePage: React.FC = () => {
             <select
               value={courtPos}
               onChange={(e) => setCourtPos(e.target.value)}
-              className="w-full px-3.5 py-2.5 bg-[#080d1a] border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-emerald-500"
+              className="w-full px-3.5 py-2.5 bg-[#080d1a] border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-cyan-500"
             >
               <option value="ALL_ROUND">All-Rounder</option>
               <option value="FORECOURT">Forecourt / Net Play Specialist</option>
@@ -217,7 +217,7 @@ export const UserProfilePage: React.FC = () => {
               value={heightCm}
               onChange={(e) => setHeightCm(e.target.value ? Number(e.target.value) : '')}
               placeholder="e.g. 178"
-              className="w-full px-4 py-2.5 bg-[#080d1a] border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-emerald-500"
+              className="w-full px-4 py-2.5 bg-[#080d1a] border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-cyan-500"
             />
           </div>
 
@@ -230,7 +230,7 @@ export const UserProfilePage: React.FC = () => {
               value={bio}
               onChange={(e) => setBio(e.target.value)}
               placeholder="e.g. Focusing on rapid recovery after baseline clears and steep jump smash consistency..."
-              className="w-full px-4 py-2.5 bg-[#080d1a] border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-emerald-500"
+              className="w-full px-4 py-2.5 bg-[#080d1a] border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-cyan-500"
             />
           </div>
         </div>
@@ -243,7 +243,7 @@ export const UserProfilePage: React.FC = () => {
       {/* Account Security & Password Update Section */}
       <form onSubmit={handlePasswordChange} className="bg-[#0f172a] border border-[#1e293b] rounded-3xl p-6 flex flex-col gap-5">
         <div className="flex items-center gap-2">
-          <KeyRound className="w-4 h-4 text-emerald-400" />
+          <KeyRound className="w-4 h-4 text-cyan-400" />
           <h3 className="text-sm font-bold uppercase tracking-wider text-slate-200">
             Account Password & Security
           </h3>
@@ -254,7 +254,7 @@ export const UserProfilePage: React.FC = () => {
         </p>
 
         {passwordSuccess && (
-          <div className="p-3.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs flex items-center gap-2">
+          <div className="p-3.5 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4 shrink-0" />
             <span>{passwordSuccess}</span>
           </div>
@@ -277,7 +277,7 @@ export const UserProfilePage: React.FC = () => {
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full px-3.5 py-2.5 bg-[#080d1a] border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-emerald-500"
+              className="w-full px-3.5 py-2.5 bg-[#080d1a] border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-cyan-500"
               required
             />
           </div>
@@ -291,7 +291,7 @@ export const UserProfilePage: React.FC = () => {
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full px-3.5 py-2.5 bg-[#080d1a] border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-emerald-500"
+              className="w-full px-3.5 py-2.5 bg-[#080d1a] border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-cyan-500"
               required
               minLength={8}
             />
@@ -306,7 +306,7 @@ export const UserProfilePage: React.FC = () => {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full px-3.5 py-2.5 bg-[#080d1a] border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-emerald-500"
+              className="w-full px-3.5 py-2.5 bg-[#080d1a] border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:border-cyan-500"
               required
               minLength={8}
             />
