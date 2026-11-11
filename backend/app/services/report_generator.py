@@ -98,21 +98,27 @@ class ReportGenerator:
         elements = []
 
         # 1. Header Banner
+        created_at_str = str(match_data.get('created_at') or '')[:10]
         elements.append(Paragraph("<b>RALLYVISION PRO</b> — TOURNAMENT PERFORMANCE DOSSIER", title_style))
-        elements.append(Paragraph(f"BWF Court Telemetry Dossier • Match: <b>{match_data.get('title', 'Badminton Match')}</b> | Analyzed on {match_data.get('created_at', '')[:10]}", subtitle_style))
+        elements.append(Paragraph(f"BWF Court Telemetry Dossier • Match: <b>{match_data.get('title') or 'Badminton Match'}</b> | Analyzed on {created_at_str}", subtitle_style))
         elements.append(HRFlowable(width="100%", thickness=2, color=accent_cyan, spaceAfter=15))
 
         # 2. Match & Player Meta Table
+        dur_sec = float(video_metadata.get('duration_seconds') or 0.0)
+        fps_val = float(video_metadata.get('fps') or 30.0)
+        w_val = int(video_metadata.get('width') or 1920)
+        h_val = int(video_metadata.get('height') or 1080)
+
         meta_data = [
             [
-                Paragraph("<b>Player:</b> " + user_data.get('full_name', 'Player'), body_style),
-                Paragraph("<b>Match Format:</b> " + match_data.get('match_type', 'SINGLES'), body_style),
+                Paragraph("<b>Player:</b> " + (user_data.get('full_name') or 'Player'), body_style),
+                Paragraph("<b>Match Format:</b> " + (match_data.get('match_type') or 'SINGLES'), body_style),
                 Paragraph("<b>Opponent:</b> " + (match_data.get('opponent_name') or 'N/A'), body_style),
             ],
             [
-                Paragraph("<b>Video Duration:</b> " + f"{video_metadata.get('duration_seconds', 0):.1f}s", body_style),
-                Paragraph("<b>Frame Rate:</b> " + f"{video_metadata.get('fps', 30.0)} FPS", body_style),
-                Paragraph("<b>Resolution:</b> " + f"{video_metadata.get('width', 1920)}x{video_metadata.get('height', 1080)}", body_style),
+                Paragraph(f"<b>Video Duration:</b> {dur_sec:.1f}s", body_style),
+                Paragraph(f"<b>Frame Rate:</b> {fps_val:.1f} FPS", body_style),
+                Paragraph(f"<b>Resolution:</b> {w_val}x{h_val}", body_style),
             ]
         ]
         meta_table = Table(meta_data, colWidths=[180, 180, 180])
@@ -130,6 +136,19 @@ class ReportGenerator:
 
         # 3. Key Performance Indicators (KPI Grid)
         elements.append(Paragraph("Key Performance Metrics", section_heading))
+        tot_dist = float(analytics.get('total_movement_distance_m') or 0.0)
+        avg_spd = float(analytics.get('avg_movement_speed_kmh') or 0.0)
+        max_spd = float(analytics.get('max_movement_speed_kmh') or 0.0)
+        base_rec = float(analytics.get('base_recovery_rate_percent') or 0.0)
+        tot_ral = int(analytics.get('total_rallies') or 0)
+        avg_ral_sec = float(analytics.get('avg_rally_duration_sec') or 0.0)
+        tot_shots = int(analytics.get('total_shots') or 0)
+        avg_shots_ral = float(analytics.get('avg_shots_per_rally') or 0.0)
+        w_r_ratio = float(analytics.get('work_to_rest_ratio') or 0.0)
+        cal_burned = int(analytics.get('estimated_calories_burned') or int(tot_dist * 0.4))
+        steps_count = int(analytics.get('estimated_steps') or int(tot_dist / 0.72))
+        arch_type = str(analytics.get('player_archetype') or 'All-Round Dynamo 🏸')
+
         kpi_data = [
             [
                 Paragraph("<b>Metric</b>", body_style),
@@ -138,37 +157,37 @@ class ReportGenerator:
             ],
             [
                 Paragraph("Total Movement Distance", body_style),
-                Paragraph(f"<b>{analytics.get('total_movement_distance_m', 0):.1f} m</b>", body_style),
+                Paragraph(f"<b>{tot_dist:.1f} m</b>", body_style),
                 Paragraph("Metric distance on standard court", body_style),
             ],
             [
                 Paragraph("Average Movement Speed", body_style),
-                Paragraph(f"<b>{analytics.get('avg_movement_speed_kmh', 0):.1f} km/h</b>", body_style),
+                Paragraph(f"<b>{avg_spd:.1f} km/h</b>", body_style),
                 Paragraph("Continuous footwork velocity", body_style),
             ],
             [
                 Paragraph("Peak Movement Speed", body_style),
-                Paragraph(f"<b>{analytics.get('max_movement_speed_kmh', 0):.1f} km/h</b>", body_style),
+                Paragraph(f"<b>{max_spd:.1f} km/h</b>", body_style),
                 Paragraph("Explosive lunging & sprint bursts", body_style),
             ],
             [
                 Paragraph("Base Position Recovery Rate", body_style),
-                Paragraph(f"<b>{analytics.get('base_recovery_rate_percent', 0):.1f}%</b>", body_style),
+                Paragraph(f"<b>{base_rec:.1f}%</b>", body_style),
                 Paragraph("Target > 55% central reset", body_style),
             ],
             [
                 Paragraph("Total Detected Rallies", body_style),
-                Paragraph(f"<b>{analytics.get('total_rallies', 0)}</b>", body_style),
-                Paragraph(f"Avg duration: {analytics.get('avg_rally_duration_sec', 0):.1f}s", body_style),
+                Paragraph(f"<b>{tot_ral}</b>", body_style),
+                Paragraph(f"Avg duration: {avg_ral_sec:.1f}s", body_style),
             ],
             [
                 Paragraph("Total Recorded Shots", body_style),
-                Paragraph(f"<b>{analytics.get('total_shots', 0)}</b>", body_style),
-                Paragraph(f"Avg {analytics.get('avg_shots_per_rally', 0):.1f} shots/rally", body_style),
+                Paragraph(f"<b>{tot_shots}</b>", body_style),
+                Paragraph(f"Avg {avg_shots_ral:.1f} shots/rally", body_style),
             ],
             [
                 Paragraph("Work-to-Rest Ratio", body_style),
-                Paragraph(f"<b>1 : {analytics.get('work_to_rest_ratio', 0):.1f}</b>", body_style),
+                Paragraph(f"<b>1 : {w_r_ratio:.1f}</b>", body_style),
                 Paragraph("Active play vs downtime ratio", body_style),
             ],
             [
@@ -178,17 +197,17 @@ class ReportGenerator:
             ],
             [
                 Paragraph("Attacking Dominance Ratio", body_style),
-                Paragraph(f"<b>{max(45.0, min(82.0, 50.0 + (analytics.get('base_recovery_rate_percent', 50.0) - 50.0) * 0.6)):.1f}%</b>", body_style),
+                Paragraph(f"<b>{max(45.0, min(82.0, 50.0 + (base_rec - 50.0) * 0.6)):.1f}%</b>", body_style),
                 Paragraph("Offensive front-foot initiative", body_style),
             ],
             [
                 Paragraph("Estimated Energy & Calories", body_style),
-                Paragraph(f"<b>~{analytics.get('estimated_calories_burned', int(analytics.get('total_movement_distance_m', 0)*0.4))} kcal</b>", body_style),
-                Paragraph(f"Approx {analytics.get('estimated_steps', int(analytics.get('total_movement_distance_m', 0)/0.72))} athletic steps", body_style),
+                Paragraph(f"<b>~{cal_burned} kcal</b>", body_style),
+                Paragraph(f"Approx {steps_count} athletic steps", body_style),
             ],
             [
                 Paragraph("Player Archetype & Style", body_style),
-                Paragraph(f"<b>{analytics.get('player_archetype', 'All-Round Dynamo 🏸')}</b>", body_style),
+                Paragraph(f"<b>{arch_type}</b>", body_style),
                 Paragraph("Tactical court personality", body_style),
             ]
         ]
@@ -207,11 +226,17 @@ class ReportGenerator:
 
         # 4. Shot Distribution & Tactical Zone Coverage
         elements.append(Paragraph("Tactical Breakdown & Shot Distribution", section_heading))
-        shot_dist = analytics.get("shot_distribution", {})
+        shot_dist = analytics.get("shot_distribution") or {}
         shots_summary = ", ".join([f"{k}: {v}" for k, v in shot_dist.items()]) or "No shots categorized"
         
-        zone_occ = analytics.get("court_zone_occupancy", {})
-        zone_summary = f"Front Court: {zone_occ.get('FRONT_LEFT', 0) + zone_occ.get('FRONT_RIGHT', 0):.1f}% | Mid Court: {zone_occ.get('MID_LEFT', 0) + zone_occ.get('MID_RIGHT', 0):.1f}% | Rear Court: {zone_occ.get('REAR_LEFT', 0) + zone_occ.get('REAR_RIGHT', 0):.1f}%"
+        zone_occ = analytics.get("court_zone_occupancy") or {}
+        fl = float(zone_occ.get('FRONT_LEFT') or 0.0)
+        fr = float(zone_occ.get('FRONT_RIGHT') or 0.0)
+        ml = float(zone_occ.get('MID_LEFT') or 0.0)
+        mr = float(zone_occ.get('MID_RIGHT') or 0.0)
+        rl = float(zone_occ.get('REAR_LEFT') or 0.0)
+        rr = float(zone_occ.get('REAR_RIGHT') or 0.0)
+        zone_summary = f"Front Court: {fl + fr:.1f}% | Mid Court: {ml + mr:.1f}% | Rear Court: {rl + rr:.1f}%"
         
         breakdown_data = [
             [Paragraph("<b>Shot Category Counts:</b>", body_style), Paragraph(shots_summary, body_style)],

@@ -194,6 +194,9 @@ def verify_2fa(req: TwoFactorVerifyRequest, db: Session = Depends(get_db)):
     # Invalidate one-time challenge code
     profile.two_factor_code = None
     profile.two_factor_code_expires_at = None
+    if is_valid_backup:
+        # Emergency recovery backup codes are single-use to prevent replay
+        profile.two_factor_backup_code = None
     user.last_login_at = utcnow()
     db.commit()
     db.refresh(user)
