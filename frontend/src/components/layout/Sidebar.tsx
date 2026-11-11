@@ -10,13 +10,16 @@ import {
   Settings,
   ShieldCheck,
   Zap,
-  Target
+  Target,
+  Bot,
+  Sparkles
 } from 'lucide-react';
 import { ShuttlecockIcon, BadmintonRacketIcon, CourtDimensionsIcon, CrossedRacketsLogoIcon } from '../icons/BadmintonIcons';
 
 export const Sidebar: React.FC = () => {
   const navItems = [
     { to: '/dashboard', label: 'Match Center', icon: LayoutDashboard },
+    { to: '/coach', label: 'AI Tactical Coach', icon: Bot, badge: 'AI' },
     { to: '/upload', label: 'Upload Match', icon: Upload },
     { to: '/history', label: 'Match Archive', icon: History },
     { to: '/compare', label: 'Head-to-Head Compare', icon: GitCompare },
@@ -41,15 +44,22 @@ export const Sidebar: React.FC = () => {
               key={item.to}
               to={item.to}
               className={({ isActive }) =>
-                `flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
+                `flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
                   isActive
                     ? 'bg-gradient-to-r from-cyan-500/20 to-indigo-500/20 text-cyan-300 border border-cyan-400/40 font-bold shadow-lg shadow-cyan-950/40'
                     : 'text-slate-400 hover:text-white hover:bg-slate-800/60 border border-transparent'
                 }`
               }
             >
-              <Icon className="w-4 h-4 shrink-0 text-cyan-400/90" />
-              <span>{item.label}</span>
+              <div className="flex items-center gap-3">
+                <Icon className="w-4 h-4 shrink-0 text-cyan-400/90" />
+                <span>{item.label}</span>
+              </div>
+              {item.badge && (
+                <span className="text-[10px] font-mono font-black px-1.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-400/40">
+                  {item.badge}
+                </span>
+              )}
             </NavLink>
           );
         })}

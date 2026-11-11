@@ -23,6 +23,7 @@ import { PdfReportsPage } from './pages/PdfReportsPage';
 import { UserProfilePage } from './pages/UserProfilePage';
 import { SettingsPage } from './pages/SettingsPage';
 import { PrivacyPage } from './pages/PrivacyPage';
+import { AICoachPage } from './pages/AICoachPage';
 import { SharedMatchPage } from './pages/SharedMatchPage';
 import { ErrorBoundary } from './components/ui/ErrorBoundary';
 import { OfflineBanner } from './components/ui/OfflineBanner';
@@ -162,6 +163,22 @@ export function App() {
               element={
                 <ProtectedRoute>
                   <PdfReportsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/coach"
+              element={
+                <ProtectedRoute>
+                  <AICoachPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/ai-coach"
+              element={
+                <ProtectedRoute>
+                  <AICoachPage />
                 </ProtectedRoute>
               }
             />

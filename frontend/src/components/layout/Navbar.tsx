@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Plus, Camera, LogOut } from 'lucide-react';
+import { Plus, Camera, LogOut, Bot, Sparkles } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { Button } from '../ui/Button';
 import { LiveMatchRecorder } from '../video/LiveMatchRecorder';
@@ -36,6 +36,19 @@ export const Navbar: React.FC = () => {
 
           {user ? (
             <>
+              {/* Quick AI Tactical Coach Link */}
+              <Link
+                to="/coach"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-cyan-500/15 to-indigo-500/15 hover:from-cyan-500/25 hover:to-indigo-500/25 border border-cyan-400/40 text-cyan-300 text-xs font-bold transition-all shadow-sm active:scale-95"
+                title="Open RallyCoach AI Tactical Assistant"
+              >
+                <Bot className="w-3.5 h-3.5 text-cyan-400" />
+                <span className="hidden sm:inline">Ask AI Coach</span>
+                <span className="text-[9px] font-mono font-black px-1.5 py-0.2 bg-cyan-400 text-slate-950 rounded-full">
+                  AI
+                </span>
+              </Link>
+
               {/* Quick Live Camera Match Recording button */}
               <button
                 onClick={() => setShowRecorder(true)}

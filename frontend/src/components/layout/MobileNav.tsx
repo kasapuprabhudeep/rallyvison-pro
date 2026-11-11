@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Upload, History, GitCompare, User } from 'lucide-react';
+import { LayoutDashboard, Upload, History, Bot, User } from 'lucide-react';
 import { ShuttlecockIcon } from '../icons/BadmintonIcons';
 
 export const MobileNav: React.FC = () => {
@@ -8,7 +8,7 @@ export const MobileNav: React.FC = () => {
     { to: '/dashboard', label: 'Match Center', icon: LayoutDashboard },
     { to: '/history', label: 'Archive', icon: History },
     { to: '/upload', label: 'Analyze', icon: Upload, highlight: true },
-    { to: '/compare', label: 'Compare', icon: GitCompare },
+    { to: '/coach', label: 'AI Coach', icon: Bot },
     { to: '/profile', label: 'Passport', icon: User }
   ];
 
