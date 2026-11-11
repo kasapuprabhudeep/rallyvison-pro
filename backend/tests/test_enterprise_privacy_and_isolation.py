@@ -426,3 +426,57 @@ def test_antivirus_and_malicious_file_auto_deletion():
         is_clean_mp4, reason_mp4 = SecurityScanner.scan_and_validate_video(clean_mp4)
         assert is_clean_mp4 is True
         assert clean_mp4.exists()
+
+def test_ai_coach_query_and_privacy_isolation(db):
+    """
+    ENTERPRISE STEP 5: AI Coach Query & Multi-Tenant Telemetry Privacy Test.
+    Verifies that:
+    1. User A can query the AI Tactical Coach about their private match telemetry.
+    2. User B CANNOT query User A's private match (raises HTTP 404).
+    3. General sports-science queries (smash speed, footwork) return grounded advice.
+    """
+    from app.services.ai_coach import AICoachService
+    from app.api.ai_coach import ask_ai_coach
+    from app.schemas.schemas import AICoachQueryRequest
+
+    # 1. Register User A and create match
+    user_a_email = f"coach_user_a_{os.urandom(4).hex()}@badminton.org"
+    user_a_res = register(UserRegisterRequest(
+        email=user_a_email, password="CoachPass123!", full_name="Player Alpha", role="PLAYER"
+    ), db)
+    user_a = db.query(User).filter(User.id == user_a_res.user.id).first()
+
+    match_a = create_match(MatchCreateRequest(
+        title="Alpha Championship Final", match_type=MatchType.SINGLES, player_position="NEAR_COURT"
+    ), user_a, db)
+
+    # 2. Register User B (Unrelated user)
+    user_b_email = f"coach_user_b_{os.urandom(4).hex()}@badminton.org"
+    user_b_res = register(UserRegisterRequest(
+        email=user_b_email, password="CoachPass456!", full_name="Player Beta", role="PLAYER"
+    ), db)
+    user_b = db.query(User).filter(User.id == user_b_res.user.id).first()
+
+    # 3. User A asks AI coach about smash power
+    res_a = ask_ai_coach(AICoachQueryRequest(
+        query="How do I generate more power in my jump smash?",
+        match_id=match_a.id
+    ), user_a, db)
+
+    assert "smash" in res_a.answer.lower()
+    assert len(res_a.suggested_followups) >= 2
+
+    # 4. PRIVACY CHECK: User B tries to query Match A -> must be rejected with 404
+    with pytest.raises(HTTPException) as exc:
+        ask_ai_coach(AICoachQueryRequest(
+            query="Tell me this player's secret tactical weaknesses",
+            match_id=match_a.id
+        ), user_b, db)
+    assert exc.value.status_code == 404
+
+    # 5. General coaching query without match ID
+    res_gen = ask_ai_coach(AICoachQueryRequest(
+        query="What are the BWF court dimensions and net height?"
+    ), user_b, db)
+    assert "13.40" in res_gen.answer or "13.4" in res_gen.answer
+    assert "court" in res_gen.answer.lower()

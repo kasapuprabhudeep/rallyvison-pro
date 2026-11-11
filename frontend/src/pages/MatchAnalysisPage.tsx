@@ -27,6 +27,7 @@ import { Match, AnalysisResults } from '../types';
 import { VideoPlayerOverlay } from '../components/video/VideoPlayerOverlay';
 import { TacticalCourtView } from '../components/court/TacticalCourtView';
 import { CourtHeatmap } from '../components/court/CourtHeatmap';
+import { AICoachChat } from '../components/ai/AICoachChat';
 import { StatCard } from '../components/ui/StatCard';
 import { Badge } from '../components/ui/Badge';
 import { Button } from '../components/ui/Button';
@@ -219,6 +220,13 @@ export const MatchAnalysisPage: React.FC = () => {
             Coaching Insights ({match.recommendations.length})
           </button>
         </Link>
+        <button
+          onClick={() => document.getElementById('ai-coach-section')?.scrollIntoView({ behavior: 'smooth' })}
+          className="px-4 py-2 rounded-xl text-xs font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 hover:bg-emerald-500/20 transition-colors flex items-center gap-1.5 whitespace-nowrap"
+        >
+          <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+          <span>Ask RallyCoach AI</span>
+        </button>
       </div>
 
       {/* Primary Visual Studio: Synced Video Player + 2D Tactical Replay */}
@@ -501,6 +509,11 @@ export const MatchAnalysisPage: React.FC = () => {
             Projected Win-Rate: +14.2% via Fast Drops
           </div>
         </div>
+      </div>
+
+      {/* Interactive AI Tactical Assistant (RallyCoach AI) */}
+      <div id="ai-coach-section">
+        <AICoachChat matchId={match.id} matchTitle={match.title} />
       </div>
 
       {/* Share with Public Users Modal */}

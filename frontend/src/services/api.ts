@@ -386,6 +386,22 @@ export const api = {
   getReportDownloadUrl(reportId: number) {
     const token = localStorage.getItem('rallyvision_token');
     return `${API_BASE}/reports/${reportId}/download?token=${token || ''}`;
+  },
+
+  // AI Tactical Coach
+  async askAICoach(query: string, matchId?: number): Promise<{
+    answer: string;
+    grounded_metrics: Record<string, any>;
+    suggested_followups: string[];
+    match_context_included: boolean;
+    timestamp: string;
+  }> {
+    const res = await fetch(`${API_BASE}/ai/ask`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify({ query, match_id: matchId })
+    });
+    return handleResponse(res);
   }
 };
 

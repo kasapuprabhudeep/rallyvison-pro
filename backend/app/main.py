@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from app.core.config import settings, STORAGE_DIR
 from app.core.database import engine, Base
-from app.api import auth, matches, videos, court, analysis, analytics, reports
+from app.api import auth, matches, videos, court, analysis, analytics, reports, ai_coach
 
 # Create tables in database on startup
 Base.metadata.create_all(bind=engine)
@@ -36,6 +36,7 @@ app.include_router(court.router, prefix=settings.API_V1_STR)
 app.include_router(analysis.router, prefix=settings.API_V1_STR)
 app.include_router(analytics.router, prefix=settings.API_V1_STR)
 app.include_router(reports.router, prefix=settings.API_V1_STR)
+app.include_router(ai_coach.router, prefix=settings.API_V1_STR)
 
 @app.get("/api/health", tags=["Health"])
 def health_check():

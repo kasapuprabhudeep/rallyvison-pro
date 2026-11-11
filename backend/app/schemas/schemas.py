@@ -267,3 +267,14 @@ class DashboardSummaryResponse(BaseModel):
     recent_matches: List[MatchDetailResponse]
     performance_trends: List[Dict[str, Any]]
 
+class AICoachQueryRequest(BaseModel):
+    query: str
+    match_id: Optional[int] = None
+
+class AICoachQueryResponse(BaseModel):
+    answer: str
+    grounded_metrics: Dict[str, Any] = {}
+    suggested_followups: List[str] = []
+    match_context_included: bool = False
+    timestamp: datetime
+
