@@ -589,3 +589,78 @@ def test_ai_coach_adversarial_boundaries_and_domain_safety(db):
         match=None
     )
     assert any(term in tech_res["answer"].lower() for term in ["smash", "pronation", "core", "kinetic", "timing", "racket", "wrist"])
+
+# ==============================================================================
+# TIER 9: SINGLES (2 PLAYERS) VS DOUBLES (4 PLAYERS) TRACKING INTEGRITY
+# ==============================================================================
+
+def test_player_tracker_singles_and_doubles_court_modes():
+    """
+    Verifies that the tracking engine correctly:
+    1. Tracks 2 players in SINGLES mode (Player 1 near, Player 2 far).
+    2. Tracks all 4 players across the whole court in DOUBLES mode (Players 1 & 2 near, Players 3 & 4 far).
+    """
+    import numpy as np
+    from app.services.player_tracker import PlayerTracker
+    
+    # Mock identity homography (pixel meters 1:1)
+    H_mock = np.eye(3, dtype=np.float64)
+
+    # 1. Singles Mode Test (1 Near, 1 Far)
+    tracker_singles = PlayerTracker(homography_matrix=H_mock, court_type="SINGLES")
+    dummy_frame = np.zeros((480, 640, 3), dtype=np.uint8)
+
+    # Synthesize two detections: near (y=10.0m) and far (y=3.0m)
+    tracker_singles.last_known_positions = {
+        1: {
+            "player_id": 1, "frame_index": 0, "timestamp": 1.0,
+            "bbox": [0.3, 0.6, 0.4, 0.9], "foot_px": [200.0, 400.0],
+            "court_x_m": 2.5, "court_y_m": 10.2, "court_zone": "REAR_RIGHT",
+            "is_base_position": True, "confidence": 0.92
+        },
+        2: {
+            "player_id": 2, "frame_index": 0, "timestamp": 1.0,
+            "bbox": [0.4, 0.1, 0.5, 0.3], "foot_px": [260.0, 120.0],
+            "court_x_m": 2.6, "court_y_m": 2.8, "court_zone": "FRONT_RIGHT",
+            "is_base_position": True, "confidence": 0.88
+        }
+    }
+    singles_decay = tracker_singles.process_frame(dummy_frame, frame_idx=1, timestamp=1.1)
+    pids_singles = {p["player_id"] for p in singles_decay}
+    assert 1 in pids_singles
+    assert 2 in pids_singles
+    assert len(pids_singles) == 2
+
+    # 2. Doubles Mode Test (4 Players across whole court)
+    tracker_doubles = PlayerTracker(homography_matrix=H_mock, court_type="DOUBLES")
+    tracker_doubles.last_known_positions = {
+        1: {
+            "player_id": 1, "frame_index": 0, "timestamp": 1.0,
+            "bbox": [0.2, 0.6, 0.3, 0.9], "foot_px": [150.0, 400.0],
+            "court_x_m": 1.5, "court_y_m": 10.0, "court_zone": "REAR_LEFT",
+            "is_base_position": True, "confidence": 0.93
+        },
+        2: {
+            "player_id": 2, "frame_index": 0, "timestamp": 1.0,
+            "bbox": [0.6, 0.5, 0.7, 0.8], "foot_px": [400.0, 360.0],
+            "court_x_m": 4.5, "court_y_m": 9.2, "court_zone": "REAR_RIGHT",
+            "is_base_position": True, "confidence": 0.90
+        },
+        3: {
+            "player_id": 3, "frame_index": 0, "timestamp": 1.0,
+            "bbox": [0.3, 0.1, 0.4, 0.3], "foot_px": [200.0, 120.0],
+            "court_x_m": 2.0, "court_y_m": 3.0, "court_zone": "FRONT_LEFT",
+            "is_base_position": True, "confidence": 0.87
+        },
+        4: {
+            "player_id": 4, "frame_index": 0, "timestamp": 1.0,
+            "bbox": [0.6, 0.1, 0.7, 0.3], "foot_px": [420.0, 130.0],
+            "court_x_m": 4.8, "court_y_m": 2.5, "court_zone": "FRONT_RIGHT",
+            "is_base_position": True, "confidence": 0.85
+        }
+    }
+    doubles_decay = tracker_doubles.process_frame(dummy_frame, frame_idx=1, timestamp=1.1)
+    pids_doubles = {p["player_id"] for p in doubles_decay}
+    assert pids_doubles == {1, 2, 3, 4}
+    assert len(doubles_decay) == 4
+

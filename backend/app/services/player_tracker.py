@@ -66,8 +66,8 @@ class PlayerTracker:
                     })
 
         # Match detections to player IDs based on court position
-        # Player 1: Near Court (y > court_length / 2)
-        # Player 2: Far Court (y <= court_length / 2)
+        # SINGLES: Player 1 (Near Court), Player 2 (Far Court)
+        # DOUBLES: Player 1 & 2 (Near Court Partners), Player 3 & 4 (Far Court Opponents)
         court_w, court_l = CourtDetector.get_standard_court_dimensions(self.court_type)
         mid_court_y = court_l / 2.0
 
@@ -97,31 +97,77 @@ class PlayerTracker:
         # Sort detections by Y coordinate (far to near)
         detections.sort(key=lambda d: d["court_m"][1])
 
-        # Assign near-court player (Player 1) and far-court player (Player 2)
         near_candidates = [d for d in detections if d["court_m"][1] >= mid_court_y * 0.65]
         far_candidates = [d for d in detections if d["court_m"][1] < mid_court_y * 1.35]
 
-        if near_candidates:
-            # Pick largest/highest confidence near player
-            best_near = max(near_candidates, key=lambda d: d["confidence"])
-            p1_track = self._format_player_track(1, best_near, frame_idx, timestamp)
-            results.append(p1_track)
-            self.last_known_positions[1] = p1_track
-        elif detections:
-            # Fallback when near player lunges forward towards net
-            best_near = max(detections, key=lambda d: d["court_m"][1])
-            p1_track = self._format_player_track(1, best_near, frame_idx, timestamp)
-            results.append(p1_track)
-            self.last_known_positions[1] = p1_track
+        if self.court_type == "DOUBLES":
+            # --- DOUBLES MODE (4 PLAYERS) ---
+            # Near Court (Player 1 & Player 2)
+            if near_candidates:
+                sorted_near = sorted(near_candidates, key=lambda d: d["confidence"], reverse=True)
+                p1_cand = sorted_near[0]
+                p1_track = self._format_player_track(1, p1_cand, frame_idx, timestamp)
+                results.append(p1_track)
+                self.last_known_positions[1] = p1_track
 
-        if far_candidates:
-            # Pick far player candidate distinct from player 1
-            valid_far = [d for d in far_candidates if not results or d["foot_px"] != results[0]["foot_px"]]
-            if valid_far:
-                best_far = max(valid_far, key=lambda d: d["confidence"])
-                p2_track = self._format_player_track(2, best_far, frame_idx, timestamp)
-                results.append(p2_track)
-                self.last_known_positions[2] = p2_track
+                if len(sorted_near) > 1:
+                    for cand in sorted_near[1:]:
+                        dx = cand["court_m"][0] - p1_cand["court_m"][0]
+                        dy = cand["court_m"][1] - p1_cand["court_m"][1]
+                        if np.hypot(dx, dy) >= 0.5:
+                            p2_track = self._format_player_track(2, cand, frame_idx, timestamp)
+                            results.append(p2_track)
+                            self.last_known_positions[2] = p2_track
+                            break
+            elif detections:
+                best_near = max(detections, key=lambda d: d["court_m"][1])
+                p1_track = self._format_player_track(1, best_near, frame_idx, timestamp)
+                results.append(p1_track)
+                self.last_known_positions[1] = p1_track
+
+            # Far Court (Player 3 & Player 4)
+            if far_candidates:
+                near_foots = [r["foot_px"] for r in results]
+                valid_far = [d for d in far_candidates if d["foot_px"] not in near_foots]
+                if valid_far:
+                    sorted_far = sorted(valid_far, key=lambda d: d["confidence"], reverse=True)
+                    p3_cand = sorted_far[0]
+                    p3_track = self._format_player_track(3, p3_cand, frame_idx, timestamp)
+                    results.append(p3_track)
+                    self.last_known_positions[3] = p3_track
+
+                    if len(sorted_far) > 1:
+                        for cand in sorted_far[1:]:
+                            dx = cand["court_m"][0] - p3_cand["court_m"][0]
+                            dy = cand["court_m"][1] - p3_cand["court_m"][1]
+                            if np.hypot(dx, dy) >= 0.5:
+                                p4_track = self._format_player_track(4, cand, frame_idx, timestamp)
+                                results.append(p4_track)
+                                self.last_known_positions[4] = p4_track
+                                break
+        else:
+            # --- SINGLES MODE (2 PLAYERS) ---
+            if near_candidates:
+                # Pick largest/highest confidence near player
+                best_near = max(near_candidates, key=lambda d: d["confidence"])
+                p1_track = self._format_player_track(1, best_near, frame_idx, timestamp)
+                results.append(p1_track)
+                self.last_known_positions[1] = p1_track
+            elif detections:
+                # Fallback when near player lunges forward towards net
+                best_near = max(detections, key=lambda d: d["court_m"][1])
+                p1_track = self._format_player_track(1, best_near, frame_idx, timestamp)
+                results.append(p1_track)
+                self.last_known_positions[1] = p1_track
+
+            if far_candidates:
+                # Pick far player candidate distinct from player 1
+                valid_far = [d for d in far_candidates if not results or d["foot_px"] != results[0]["foot_px"]]
+                if valid_far:
+                    best_far = max(valid_far, key=lambda d: d["confidence"])
+                    p2_track = self._format_player_track(2, best_far, frame_idx, timestamp)
+                    results.append(p2_track)
+                    self.last_known_positions[2] = p2_track
 
         return results
 
@@ -154,7 +200,8 @@ class PlayerTracker:
 
         # Base position detection: within center zone around (mid_x, 9.5m for near court)
         court_w, court_l = CourtDetector.get_standard_court_dimensions(self.court_type)
-        base_center_y = court_l * 0.72 if player_id == 1 else court_l * 0.28
+        is_near = player_id == 1 or (self.court_type == "DOUBLES" and player_id == 2)
+        base_center_y = court_l * 0.72 if is_near else court_l * 0.28
         base_center_x = court_w * 0.5
         dist_to_base = np.sqrt((court_x - base_center_x)**2 + (court_y - base_center_y)**2)
         is_base = bool(dist_to_base <= 1.6)
