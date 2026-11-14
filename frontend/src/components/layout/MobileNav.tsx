@@ -13,7 +13,7 @@ export const MobileNav: React.FC = () => {
   ];
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#080d1a]/95 backdrop-blur-lg border-t border-cyan-500/20 px-3 py-2 flex items-center justify-around shadow-2xl">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#080d1a]/95 backdrop-blur-lg border-t border-cyan-500/20 px-3 pt-2 pb-[max(0.6rem,env(safe-area-inset-bottom,0.6rem))] flex items-center justify-around shadow-2xl">
       {items.map((item) => {
         const Icon = item.icon;
         if (item.highlight) {

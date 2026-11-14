@@ -48,18 +48,18 @@ export const AICoachPage: React.FC = () => {
         </div>
 
         {/* Match Context Selector */}
-        <div className="flex flex-col gap-1 sm:items-end">
+        <div className="flex flex-col gap-1 w-full sm:w-auto sm:items-end">
           <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
             Grounded Match Telemetry:
           </label>
-          <div className="relative">
+          <div className="relative w-full sm:w-auto">
             <select
               value={selectedMatchId || ''}
               onChange={(e) => {
                 const val = e.target.value;
                 setSelectedMatchId(val ? Number(val) : undefined);
               }}
-              className="appearance-none pl-3 pr-8 py-2 rounded-xl bg-[#091129] border border-cyan-500/30 text-white text-xs font-semibold focus:outline-none focus:border-cyan-400 transition-colors cursor-pointer"
+              className="appearance-none w-full sm:w-auto max-w-full sm:max-w-xs truncate pl-3 pr-8 py-2 rounded-xl bg-[#091129] border border-cyan-500/30 text-white text-xs font-semibold focus:outline-none focus:border-cyan-400 transition-colors cursor-pointer"
             >
               <option value="">🏸 General Badminton (No Match Context)</option>
               {matches.map((m) => (
