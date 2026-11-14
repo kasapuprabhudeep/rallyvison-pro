@@ -100,9 +100,14 @@ class PlayerTracker:
         near_candidates = [d for d in detections if d["court_m"][1] >= mid_court_y * 0.65]
         far_candidates = [d for d in detections if d["court_m"][1] < mid_court_y * 1.35]
 
-        if self.court_type == "DOUBLES":
-            # --- DOUBLES MODE (4 PLAYERS) ---
-            # Near Court (Player 1 & Player 2)
+        # Auto-detect doubles if explicit setting is DOUBLES or if 3-4 players are visible on court
+        is_doubles_mode = (self.court_type == "DOUBLES") or (
+            len(near_candidates) >= 2 or len(far_candidates) >= 2 or len(detections) >= 3
+        )
+
+        if is_doubles_mode:
+            # --- DOUBLES MODE (WHOLE COURT: 4 PLAYERS) ---
+            # Near Court (Player 1 & Player 2 Partners)
             if near_candidates:
                 sorted_near = sorted(near_candidates, key=lambda d: d["confidence"], reverse=True)
                 p1_cand = sorted_near[0]

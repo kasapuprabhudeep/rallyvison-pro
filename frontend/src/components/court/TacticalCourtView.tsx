@@ -42,15 +42,27 @@ export const TacticalCourtView: React.FC<TacticalCourtViewProps> = ({
 }) => {
   const [selectedShot, setSelectedShot] = useState<ShotEvent | null>(null);
   const [avatarMode, setAvatarMode] = useState<AvatarMode>('ATHLETE');
+  const [activePlayerId, setActivePlayerId] = useState<number>(highlightPlayerId);
   const [isSimPlaying, setIsSimPlaying] = useState<boolean>(false);
   const [simTime, setSimTime] = useState<number>(0);
   const [playbackSpeed, setPlaybackSpeed] = useState<number>(1.0);
   const animFrameRef = useRef<number | null>(null);
   const lastTickRef = useRef<number>(performance.now());
 
+  // Keep activePlayerId in sync if parent changes highlightPlayerId
+  React.useEffect(() => {
+    setActivePlayerId(highlightPlayerId);
+  }, [highlightPlayerId]);
+
   // Use actual tracks if provided, otherwise fallback to sample demo tracks
   const effectiveTracks = tracks.length > 0 ? tracks : SAMPLE_RALLY_TRACKS;
   const effectiveShots = shots.length > 0 ? shots : SAMPLE_SHOTS;
+
+  // Available player IDs present in the match tracking
+  const availablePlayerIds = useMemo(() => {
+    const ids = Array.from(new Set(effectiveTracks.map(t => t.player_id))).filter(Boolean);
+    return ids.length > 0 ? ids.sort((a, b) => a - b) : [1];
+  }, [effectiveTracks]);
 
   // Max duration of tracks
   const maxTrackTime = useMemo(() => {
@@ -103,10 +115,23 @@ export const TacticalCourtView: React.FC<TacticalCourtViewProps> = ({
   const rearServiceTopY = 0.76 * scale;
   const rearServiceBottomY = (13.40 - 0.76) * scale;
 
-  // Relevant tracks up to current active time
+  // Relevant tracks for the selected active player up to current active time
   const relevantTracks = effectiveTracks
-    .filter(t => t.timestamp <= activeTime && (t.player_id === highlightPlayerId || effectiveTracks.length < 15))
+    .filter(t => t.timestamp <= activeTime && (t.player_id === activePlayerId || effectiveTracks.length < 15))
     .sort((a, b) => a.timestamp - b.timestamp);
+
+  // Position of all other simultaneous players on court at activeTime (Doubles partner & Opponents)
+  const otherPlayersCurrent = useMemo(() => {
+    return availablePlayerIds
+      .filter(pid => pid !== activePlayerId)
+      .map(pid => {
+        const pTracks = effectiveTracks
+          .filter(t => t.player_id === pid && t.timestamp <= activeTime)
+          .sort((a, b) => a.timestamp - b.timestamp);
+        return pTracks.length > 0 ? pTracks[pTracks.length - 1] : null;
+      })
+      .filter((t): t is typeof effectiveTracks[0] => t !== null);
+  }, [availablePlayerIds, activePlayerId, effectiveTracks, activeTime]);
 
   // Current active player coordinate
   const currentPos = relevantTracks.length > 0 ? relevantTracks[relevantTracks.length - 1] : effectiveTracks[0];
@@ -215,6 +240,42 @@ export const TacticalCourtView: React.FC<TacticalCourtViewProps> = ({
           </button>
         </div>
       </div>
+
+      {/* 4-Player Court Roster Pill Bar (Singles & Doubles whole court mode) */}
+      {availablePlayerIds.length > 1 && (
+        <div className="flex items-center justify-start gap-1.5 flex-wrap w-full mb-3 px-1">
+          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mr-1">
+            Court Roster ({availablePlayerIds.length} Players):
+          </span>
+          {availablePlayerIds.map((pid) => {
+            const isSelected = activePlayerId === pid;
+            const label =
+              pid === 1 ? '🏸 P1 Near (Primary)' :
+              pid === 2 ? (availablePlayerIds.length >= 3 ? '🏸 P2 Near (Partner)' : '🛡️ P2 Far (Opponent)') :
+              pid === 3 ? '🛡️ P3 Far (Opponent A)' :
+              '🛡️ P4 Far (Opponent B)';
+            const colorClass =
+              pid === 1 ? 'border-cyan-400 text-cyan-300' :
+              pid === 2 ? (availablePlayerIds.length >= 3 ? 'border-emerald-400 text-emerald-300' : 'border-amber-400 text-amber-300') :
+              pid === 3 ? 'border-amber-400 text-amber-300' :
+              'border-rose-400 text-rose-300';
+
+            return (
+              <button
+                key={pid}
+                onClick={() => setActivePlayerId(pid)}
+                className={`px-2.5 py-1 rounded-xl text-[10px] font-bold border transition-all cursor-pointer ${
+                  isSelected
+                    ? `bg-cyan-500/20 shadow-md shadow-cyan-500/20 ring-1 ring-cyan-400 ${colorClass}`
+                    : 'bg-[#05091a] text-slate-400 border-slate-800 hover:border-slate-600 hover:text-slate-200'
+                }`}
+              >
+                {label}
+              </button>
+            );
+          })}
+        </div>
+      )}
 
       {/* SVG Court Canvas with Dynamic Motion Athlete */}
       <div className="relative border-4 border-cyan-400/40 rounded-2xl p-2.5 bg-gradient-to-b from-[#091530] via-[#071126] to-[#040918] shadow-2xl w-full flex justify-center overflow-hidden">
@@ -466,6 +527,74 @@ export const TacticalCourtView: React.FC<TacticalCourtViewProps> = ({
                   <circle r="7" fill="#00f0ff" stroke="#ffffff" strokeWidth="2" />
                 </g>
               )}
+
+              {/* Other Simultaneous Active Players on Court (Partner / Opponents) */}
+              {otherPlayersCurrent.map((p) => {
+                const px = Math.max(0, Math.min(courtW, p.court_x_m)) * scale;
+                const py = Math.max(0, Math.min(courtL, p.court_y_m)) * scale;
+                const pColor =
+                  p.player_id === 2 && availablePlayerIds.length >= 3
+                    ? '#10b981' // Partner (Emerald)
+                    : p.player_id === 3
+                    ? '#f59e0b' // Opponent 1 (Amber)
+                    : p.player_id === 4
+                    ? '#f43f5e' // Opponent 2 (Rose)
+                    : '#38bdf8'; // Far Player in singles (Sky Blue)
+                const pLabel =
+                  p.player_id === 2 && availablePlayerIds.length >= 3
+                    ? 'P2 Partner'
+                    : p.player_id === 3
+                    ? 'P3 Opponent'
+                    : p.player_id === 4
+                    ? 'P4 Opponent'
+                    : 'P2 Far';
+                const pSpeed = p.speed_kmh ?? (p as any).instant_speed_kmh ?? 0;
+
+                return (
+                  <g
+                    key={p.player_id}
+                    transform={`translate(${px}, ${py})`}
+                    className="cursor-pointer group"
+                    onClick={() => setActivePlayerId(p.player_id)}
+                  >
+                    <circle r="12" fill={pColor} opacity="0.25" className="animate-ping" />
+                    <circle r="8.5" fill="#030712" stroke={pColor} strokeWidth="2.5" />
+                    <text
+                      x="0"
+                      y="3"
+                      textAnchor="middle"
+                      fill="#ffffff"
+                      fontSize="7"
+                      fontWeight="black"
+                    >
+                      P{p.player_id}
+                    </text>
+                    <g transform="translate(0, -15)">
+                      <rect
+                        x="-26"
+                        y="-7.5"
+                        width="52"
+                        height="13"
+                        rx="6.5"
+                        fill="#030712"
+                        fillOpacity="0.92"
+                        stroke={pColor}
+                        strokeWidth="0.8"
+                      />
+                      <text
+                        x="0"
+                        y="2"
+                        textAnchor="middle"
+                        fill={pColor}
+                        fontSize="6.5"
+                        fontWeight="bold"
+                      >
+                        {pLabel} • {pSpeed.toFixed(0)}k
+                      </text>
+                    </g>
+                  </g>
+                );
+              })}
 
               {/* Floating Holographic Telemetry Pill Above Athlete */}
               <g transform="translate(0, -28)">
