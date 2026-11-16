@@ -8,7 +8,7 @@ import {
   ShuttlecockSpinIcon
 } from '../icons/BadmintonIcons';
 import smashActionImg from '../../assets/badminton-smash-action.jpg';
-import defenseLiftImg from '../../assets/badminton-defense-lift.jpg';
+import defenseLiftImg from '../../assets/badminton-shuttlecock-impact-court.jpg';
 import shuttleMacroImg from '../../assets/badminton-shuttle-macro.jpg';
 import doublesClashImg from '../../assets/badminton-doubles-clash.jpg';
 
