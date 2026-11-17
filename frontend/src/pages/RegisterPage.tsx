@@ -16,6 +16,9 @@ export const RegisterPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const [showServerConfig, setShowServerConfig] = useState(false);
+  const [customServerUrl, setCustomServerUrl] = useState(() => localStorage.getItem('rallyvision_server_url') || '');
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -126,6 +129,58 @@ export const RegisterPage: React.FC = () => {
           <Link to="/login" className="text-cyan-300 font-bold hover:underline">
             Sign In Here
           </Link>
+        </div>
+
+        {/* Optional Server Configuration for Mobile / Laptop Network */}
+        <div className="mt-4 pt-3 border-t border-slate-800/80 text-center">
+          <button
+            type="button"
+            onClick={() => setShowServerConfig(!showServerConfig)}
+            className="text-[11px] text-slate-400 hover:text-cyan-300 transition-colors flex items-center justify-center gap-1 mx-auto"
+          >
+            <span>⚙️ Server: {customServerUrl ? 'Custom Backend' : 'Auto / Mobile Standalone'}</span>
+          </button>
+          {showServerConfig && (
+            <div className="mt-2.5 p-3 rounded-xl bg-[#05091a] border border-cyan-500/30 text-left flex flex-col gap-2">
+              <label className="text-[10px] font-bold uppercase tracking-wider text-slate-300">
+                Backend Server URL (Optional):
+              </label>
+              <input
+                type="text"
+                value={customServerUrl}
+                onChange={(e) => setCustomServerUrl(e.target.value)}
+                placeholder="e.g. http://192.168.31.114:8000/api"
+                className="w-full px-3 py-1.5 bg-[#030612] border border-cyan-500/25 rounded-lg text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 font-mono"
+              />
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (customServerUrl.trim()) {
+                      localStorage.setItem('rallyvision_server_url', customServerUrl.trim());
+                    } else {
+                      localStorage.removeItem('rallyvision_server_url');
+                    }
+                    setShowServerConfig(false);
+                  }}
+                  className="px-3 py-1 bg-cyan-500 text-slate-950 rounded-lg text-[10px] font-bold hover:bg-cyan-400"
+                >
+                  Save URL
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    localStorage.removeItem('rallyvision_server_url');
+                    setCustomServerUrl('');
+                    setShowServerConfig(false);
+                  }}
+                  className="px-3 py-1 bg-slate-800 text-slate-300 rounded-lg text-[10px] hover:text-white"
+                >
+                  Reset Default
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
