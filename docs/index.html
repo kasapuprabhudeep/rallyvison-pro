@@ -3,159 +3,364 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Privacy Policy - RallyVision Pro</title>
+  <title>RallyVision Pro - AI Badminton Analytics & Telemetry</title>
+  <link rel="icon" type="image/svg+xml" href="playstore_icon_512.png">
   <style>
     :root {
       --bg: #070d1e;
       --card-bg: #0c142e;
       --border: #1e293b;
       --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.35);
+      --neon-cyan: #00f0ff;
+      --neon-purple: #c084fc;
       --text: #f1f5f9;
       --muted: #94a3b8;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       background-color: var(--bg);
       color: var(--text);
-      line-height: 1.65;
-      margin: 0;
-      padding: 2rem 1rem;
+      line-height: 1.6;
+      padding: 0;
+      overflow-x: hidden;
     }
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 1.5rem;
-      padding: 2.5rem;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    header {
+      background: rgba(7, 13, 30, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-    h1 {
-      color: #ffffff;
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
+    .logo {
       display: flex;
       align-items: center;
       gap: 0.75rem;
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+      text-decoration: none;
+    }
+    .logo img {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+    }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-left: 1.5rem;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+    .hero {
+      max-width: 1100px;
+      margin: 3rem auto;
+      padding: 0 1.5rem;
+      text-align: center;
     }
     .badge {
-      display: inline-block;
-      background: rgba(56, 189, 248, 0.15);
-      border: 1px solid rgba(56, 189, 248, 0.35);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
       color: var(--accent);
-      padding: 0.25rem 0.75rem;
+      padding: 0.4rem 1rem;
       border-radius: 9999px;
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       margin-bottom: 1.5rem;
     }
-    h2 {
-      color: var(--accent);
-      font-size: 1.25rem;
-      margin-top: 2rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 1px solid var(--border);
+    h1 {
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 900;
+      line-height: 1.15;
+      margin-bottom: 1.25rem;
+      background: linear-gradient(135deg, #ffffff 40%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
-    p, li {
+    .subtitle {
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
       color: var(--muted);
-      font-size: 0.95rem;
+      max-width: 720px;
+      margin: 0 auto 2.5rem;
     }
-    ul {
-      padding-left: 1.25rem;
+    .download-card {
+      background: linear-gradient(145deg, #0e1a38, #0a1128);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 1.5rem;
+      padding: 2.5rem;
+      max-width: 820px;
+      margin: 0 auto 4rem;
+      box-shadow: 0 20px 40px -15px rgba(0, 240, 255, 0.15);
+      display: grid;
+      grid-template-columns: 1fr 240px;
+      gap: 2rem;
+      align-items: center;
+      text-align: left;
     }
-    li {
+    @media (max-width: 768px) {
+      .download-card {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+    }
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      background: linear-gradient(135deg, #0284c7, #00f0ff);
+      color: #070d1e;
+      font-size: 1.1rem;
+      font-weight: 800;
+      padding: 1rem 2rem;
+      border-radius: 0.875rem;
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 10px 25px -5px rgba(0, 240, 255, 0.4);
+      margin-top: 1rem;
+    }
+    .btn-download:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 30px -5px rgba(0, 240, 255, 0.6);
+    }
+    .qr-container {
+      background: #ffffff;
+      padding: 1rem;
+      border-radius: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .qr-container img {
+      width: 170px;
+      height: 170px;
+    }
+    .qr-container span {
+      font-size: 0.75rem;
+      color: #1e293b;
+      font-weight: 700;
+      margin-top: 0.5rem;
+      text-transform: uppercase;
+    }
+    .grid-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto 4rem;
+      padding: 0 1.5rem;
+    }
+    .feature-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: 1.75rem;
+      text-align: left;
+      transition: border-color 0.2s;
+    }
+    .feature-card:hover {
+      border-color: rgba(56, 189, 248, 0.5);
+    }
+    .feature-icon {
+      font-size: 2rem;
+      margin-bottom: 0.75rem;
+    }
+    .feature-title {
+      font-size: 1.15rem;
+      font-weight: 700;
       margin-bottom: 0.5rem;
-    }
-    strong {
       color: #ffffff;
     }
-    .highlight-box {
-      background: rgba(56, 189, 248, 0.08);
-      border: 1px solid rgba(56, 189, 248, 0.25);
-      border-radius: 1rem;
-      padding: 1.25rem;
-      margin: 1.5rem 0;
+    .feature-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
     }
-    .footer {
-      margin-top: 3rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid var(--border);
-      font-size: 0.85rem;
-      color: #64748b;
+    .banner-preview {
+      max-width: 1000px;
+      margin: 0 auto 4rem;
+      padding: 0 1.5rem;
+    }
+    .banner-preview img {
+      width: 100%;
+      border-radius: 1.25rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+    }
+    .how-to {
+      max-width: 800px;
+      margin: 0 auto 5rem;
+      padding: 0 1.5rem;
+      text-align: left;
+    }
+    .how-to h2 {
+      font-size: 1.75rem;
       text-align: center;
+      margin-bottom: 2rem;
+      color: #ffffff;
+    }
+    .step {
+      display: flex;
+      gap: 1.25rem;
+      margin-bottom: 1.5rem;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 1.25rem;
+      border-radius: 0.875rem;
+    }
+    .step-number {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(56, 189, 248, 0.2);
+      color: var(--accent);
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="badge">Google Play Store & GDPR Compliant</div>
-    <h1>🏸 RallyVision Pro - Privacy & Security Policy</h1>
-    <p><em>Effective Date: November 2026 | Application Version: 2.4.0</em></p>
 
-    <div class="highlight-box">
-      <strong>Core Family & Household Guarantee:</strong>
-      <p style="margin: 0.5rem 0 0 0;">
-        RallyVision Pro is built from the ground up to protect everyday households, families, students, and club badminton players. 
-        All match videos, speed metrics, and player analytics are <strong>100% private by default</strong>. 
-        We never sell, rent, or leak your videos to third-party advertisers.
+  <header>
+    <a href="#" class="logo">
+      <img src="playstore_icon_512.png" alt="RallyVision Pro Logo">
+      RallyVision Pro
+    </a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#install">How to Install</a>
+      <a href="privacy.html">Privacy Policy</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="badge">🏸 100% Free • Open Source • Household Ready</div>
+      <h1>Real-Time AI Badminton Analytics</h1>
+      <p class="subtitle">
+        Analyze stroke mechanics, measure smash telemetry, and track player movement with tournament-grade computer vision. Works 100% offline with zero cloud fees.
       </p>
-    </div>
 
-    <h2>1. Information We Collect</h2>
-    <ul>
-      <li><strong>Account Details:</strong> Name and email address used for secure multi-tenant authentication and profile synchronization.</li>
-      <li><strong>Match Video Files:</strong> Videos uploaded or recorded via the device camera specifically for badminton court kinematics, shot classification, and rally detection.</li>
-      <li><strong>Sports Telemetry Data:</strong> Kinematic coordinates, player footwork speed, rally durations, and smash velocity calculated locally by the computer vision engine.</li>
-    </ul>
+      <div class="download-card">
+        <div>
+          <h2 style="font-size: 1.6rem; color: #ffffff; margin-bottom: 0.5rem;">Download RallyVision Pro</h2>
+          <p style="color: var(--muted); font-size: 0.95rem; margin-bottom: 1.25rem;">
+            Version 3.0 • Android APK • Fast 8.7 MB install • No ads, no tracking.
+          </p>
+          <a href="https://github.com/kasapuprabhudeep/rallyvison-pro/releases/latest" class="btn-download" id="downloadBtn">
+            📲 Download Free APK (.apk)
+          </a>
+          <p style="font-size: 0.8rem; color: #64748b; margin-top: 0.75rem;">
+            Compatible with Android 8.0, 9, 10, 11, 12, 13, 14, 15+
+          </p>
+        </div>
+        <div class="qr-container">
+          <!-- Live QR code generated dynamically pointing to latest release -->
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=170x170&data=https://github.com/kasapuprabhudeep/rallyvison-pro/releases/latest" alt="Scan to Download on Mobile">
+          <span>Scan with Phone</span>
+        </div>
+      </div>
+    </section>
 
-    <h2>2. Camera & Microphone Permissions</h2>
-    <ul>
-      <li><strong>Camera Access:</strong> Used strictly when the user activates the in-app viewfinder to record a live badminton match. No background filming or hidden recording occurs.</li>
-      <li><strong>Microphone Access:</strong> Used solely to capture racket string impacts for acoustic smash detection if enabled by the user.</li>
-    </ul>
+    <section class="banner-preview">
+      <img src="playstore_feature_graphic_1024x500.png" alt="RallyVision Pro Feature Graphic">
+    </section>
 
-    <h2>3. Multi-Tenant Isolation & Encryption Standards</h2>
-    <p>
-      Every user account operates within an isolated tenant container. Database keys, session tokens (JWT with SHA-256), and video storage are strictly segregated. 
-      Inter-account tampering or unauthorized cross-user access is blocked at the core database level.
+    <section class="grid-features" id="features">
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title">Live Stroke Telemetry</div>
+        <div class="feature-desc">Automatic recognition of high defensive lifts, hairpin rolls, drives, and smash speed mechanics with real-time visual velocity readouts.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📶</div>
+        <div class="feature-title">Offline Standalone Mode</div>
+        <div class="feature-desc">No backend servers or internet required during practice. The app caches player sessions and court metrics locally right on your phone.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🛡️</div>
+        <div class="feature-title">100% Private & Household Safe</div>
+        <div class="feature-desc">Zero third-party trackers, zero advertising SDKs, and COPPA compliant. Your personal match videos and profile never leave your control.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🏸</div>
+        <div class="feature-title">Natural Court Contrast</div>
+        <div class="feature-desc">High-clarity tournament UI designed for intense daylight or artificial arena floodlights without eye strain.</div>
+      </div>
+    </section>
+
+    <section class="how-to" id="install">
+      <h2>How to Install on Your Android Phone in 3 Easy Steps</h2>
+
+      <div class="step">
+        <div class="step-number">1</div>
+        <div>
+          <strong style="color: #ffffff;">Download the APK</strong>
+          <p>Tap the <strong>Download Free APK</strong> button above on your Android phone, or scan the QR code with your phone camera.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">2</div>
+        <div>
+          <strong style="color: #ffffff;">Allow Installation (One-Time Prompt)</strong>
+          <p>When prompted by Android with <em>"File might be harmful"</em> or <em>"Install unknown apps"</em>, tap <strong>Settings ➔ Allow from this source</strong> (this is standard for all direct APK installs).</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">3</div>
+        <div>
+          <strong style="color: #ffffff;">Start Playing & Tracking</strong>
+          <p>Open <strong>RallyVision Pro</strong>, enter your player name (e.g. Prabhu), tap <strong>Create Profile</strong>, and start analyzing your badminton game!</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 <strong>RallyVision Pro</strong>. Built with sports vision precision for household badminton players.</p>
+    <p style="margin-top: 0.5rem;">
+      <a href="privacy.html">Privacy Policy</a> • 
+      <a href="https://github.com/kasapuprabhudeep/rallyvison-pro">GitHub Repository</a> • 
+      Developer: Kasapu Prabhu Deep
     </p>
+  </footer>
 
-    <h2>4. Children & Household Privacy (COPPA & Families Policy)</h2>
-    <p>
-      RallyVision Pro is family-friendly and safe for householders of all ages. 
-      We do not display targeted ads, do not perform behavioral tracking on children, and do not share identifiable information with external data brokers.
-    </p>
-
-    <h2>5. Data Retention & Automatic Purge</h2>
-    <p>
-      Users maintain complete ownership over their files. Through the in-app <strong>Privacy Hub</strong>, users can:
-    </p>
-    <ul>
-      <li>Set an automatic video auto-purge timer (e.g., 30, 60, or 90 days).</li>
-      <li>Export complete telemetry and match reports in JSON and PDF format.</li>
-      <li>Perform an irreversible, one-click <strong>Full Account & Media Purge</strong> that immediately wipes all user videos, database rows, and credentials from the server disk.</li>
-    </ul>
-
-    <h2>6. Sharing & Public Links</h2>
-    <p>
-      Matches remain strictly private unless the user explicitly generates a secure, cryptographically random 32-character share key. 
-      Public access can be instantly revoked at any moment by unticking the share box in the match panel.
-    </p>
-
-    <h2>7. Contact & Data Controller</h2>
-    <p>
-      For privacy questions, data requests, or support, please contact the developer team at:
-      <br>
-      <strong>Email:</strong> <a href="mailto:kasapuprabhudeep@gmail.com" style="color: var(--accent);">kasapuprabhudeep@gmail.com</a>
-      <br>
-      <strong>Developer:</strong> Kasapu Prabhu Deep
-    </p>
-
-    <div class="footer">
-      &copy; 2026 RallyVision Pro. All Rights Reserved. Built for sports excellence and household privacy.
-    </div>
-  </div>
 </body>
 </html>

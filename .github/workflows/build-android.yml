@@ -7,6 +7,9 @@ on:
     branches: [ main, master ]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build-android:
     runs-on: ubuntu-latest
@@ -90,6 +93,41 @@ jobs:
           path: frontend/android/app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
           retention-days: 30
+
+      - name: Prepare Clean Release Files
+        if: github.ref == 'refs/heads/main'
+        run: |
+          mkdir -p release-assets
+          cp frontend/android/app/build/outputs/apk/debug/*.apk release-assets/RallyVision-Pro-v3.0.apk
+          cp frontend/android/app/build/outputs/bundle/release/*.aab release-assets/RallyVision-Pro-v3.0.aab
+
+      - name: Publish Official Free Public Release
+        if: github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v3.0.0
+          name: "RallyVision Pro v3.0 (Official Free Release)"
+          body: |
+            ### 🏸 RallyVision Pro Version 3.0 Free Public Release
+            
+            Welcome to the official public release of **RallyVision Pro**!
+            
+            #### 📲 Download & Installation
+            - **For Android Phones (Direct 1-Tap Install):** Download **`RallyVision-Pro-v3.0.apk`** below.
+            - **For App Stores (Play Store / Galaxy Store / Amazon):** Download **`RallyVision-Pro-v3.0.aab`**.
+            
+            #### ✨ Key Features:
+            - **Offline Standalone Player Resilience**: Create player profiles and track matches without any cloud dependency.
+            - **Live Badminton Telemetry**: High defensive lifts, smashes, speed calculations, and stroke recognition.
+            - **Household & Family Safe**: Zero ads, zero tracking, isolated player vaults.
+            - **Tournament Contrast UI**: High-clarity visuals for outdoor and indoor lighting.
+          files: |
+            release-assets/RallyVision-Pro-v3.0.apk
+            release-assets/RallyVision-Pro-v3.0.aab
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload Debug Logs on Failure
         if: failure()
